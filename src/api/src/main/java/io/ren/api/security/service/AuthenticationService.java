@@ -1,10 +1,10 @@
-package io.ren.core.service;
+package io.ren.api.security.service;
 
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.ren.core.exception.RenException;
+import io.ren.api.exception.RenException;
 
 @Service
 public interface AuthenticationService {

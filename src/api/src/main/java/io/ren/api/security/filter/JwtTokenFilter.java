@@ -15,8 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.ren.core.service.JwtTokenService;
-import io.ren.infrastructure.repository.UserRepository;
+import io.ren.api.security.service.JwtTokenService;
+import io.ren.api.repository.UserRepository;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
     private String header = "Authorization";

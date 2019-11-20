@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.ren.core.exception.RenException;
-import io.ren.core.service.AuthenticationService;
+import io.ren.api.exception.RenException;
+import io.ren.api.security.service.AuthenticationService;
 
-import io.ren.api.model.security.RegisterRequest;
-import io.ren.api.model.security.AuthenticationRequest;
-import io.ren.api.model.security.AuthenticationResponse;
+import io.ren.api.security.model.RegisterRequest;
+import io.ren.api.security.model.AuthenticationRequest;
+import io.ren.api.security.model.AuthenticationResponse;
 
 @RestController
 public class AuthenticationController {

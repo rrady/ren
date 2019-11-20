@@ -1,4 +1,4 @@
-package io.ren.api.service;
+package io.ren.api.security.service;
 
 import javax.crypto.SecretKey;
 import java.util.Calendar;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-import io.ren.core.service.JwtTokenService;
-
 @Component
 public class JwtTokenServiceImpl implements JwtTokenService {
     @Value("${jwt.secretKey}")
@@ -26,7 +24,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private String issuer;
 
     @Override
-    public String getToken(UUID userId) {
+    public String getToken(Long userId) {
         SecretKey key = getSecreyKey();
 
         return Jwts.builder()

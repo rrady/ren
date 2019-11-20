@@ -1,4 +1,4 @@
-package io.ren.api.service;
+package io.ren.api.security.service;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -6,11 +6,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.ren.core.domain.User;
-import io.ren.core.exception.RenException;
-import io.ren.core.service.AuthenticationService;
-import io.ren.core.service.JwtTokenService;
-import io.ren.infrastructure.repository.UserRepository;
+import io.ren.api.domain.User;
+import io.ren.api.exception.RenException;
+import io.ren.api.repository.UserRepository;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -34,18 +32,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String authenticate(String email, String password) throws RenException {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new RenException("Invalid credentials.");
         }
 
-        UUID userId = user.get().getId();
+        Long userId = user.get().getId();
         return jwtTokenService.getToken(userId);
     }
 
     @Override
     public void changePassword(UUID userId, String currentPassword, String newPassword) throws RenException {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new RenException(String.format("User with id: '%s' was not found.", userId));
         }
 

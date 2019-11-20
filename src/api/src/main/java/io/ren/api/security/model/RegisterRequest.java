@@ -1,4 +1,4 @@
-package io.ren.api.model.security;
+package io.ren.api.security.model;
 
 public class RegisterRequest {
     private String username;

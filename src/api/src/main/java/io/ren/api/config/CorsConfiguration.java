@@ -1,4 +1,4 @@
-package io.ren.api.security.config;
+package io.ren.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
