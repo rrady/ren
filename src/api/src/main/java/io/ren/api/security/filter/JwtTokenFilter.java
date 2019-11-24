@@ -10,37 +10,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.ren.api.security.service.JwtTokenService;
 import io.ren.api.repository.UserRepository;
+import io.ren.api.security.handler.JwtHandler;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private String header = "Authorization";
+    private String HEADER = "Authorization";
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private JwtTokenService jwtTokenService;
+    private JwtHandler jwtHandler;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        getToken(request.getHeader(header)).ifPresent(token -> {
-            jwtTokenService.getSubject(token).ifPresent(id -> {
-                if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                    userRepository.findById(id).ifPresent(user -> {
-                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                                user,
-                                null,
-                                Collections.emptyList()
-                        );
-                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    });
-                }
-            });
+        getToken(request.getHeader(HEADER)).ifPresent(token -> {
+            if (jwtHandler.verifyToken(token)) {
+                String subject = jwtHandler.getClaims(token).getSubject();
+                userRepository.findByEmail(subject).ifPresent(user -> {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            user, token, Collections.emptyList());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                });
+            }
         });
 
         filterChain.doFilter(request, response);

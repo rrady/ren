@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import io.ren.api.domain.User;
+import io.ren.api.domain.RefreshToken;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+public interface RefreshTokenRepository extends CrudRepository<RefreshToken, Long> {
+    Optional<RefreshToken> findByToken(String token);
 }

@@ -1,6 +1,6 @@
-package io.ren.api.security.model;
+package io.ren.api.model;
 
-public class PasswordResetRequest {
+public class PasswordReset {
     private String username;
     private String newPassword;
     private String oldPassword;

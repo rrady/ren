@@ -1,6 +1,6 @@
-package io.ren.api.security.model;
+package io.ren.api.model;
 
-public class RegisterRequest {
+public class SignUp {
     private String username;
     private String password;
     private String email;

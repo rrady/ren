@@ -1,6 +1,6 @@
-package io.ren.api.security.model;
+package io.ren.api.model;
 
-public class AuthenticationRequest {
+public class SignIn {
     private String email;
     private String password;
 

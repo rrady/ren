@@ -1,7 +1,6 @@
 package io.ren.api.domain;
 
 import java.util.Set;
-import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -40,5 +39,17 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
     }
 }
