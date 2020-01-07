@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import io.ren.api.domain.optional.Article;
 import lombok.*;
 
 @AllArgsConstructor
@@ -34,6 +35,9 @@ public class User {
 
     @OneToMany(mappedBy = "creator")
     public Set<Comment> comments;
+
+    @OneToMany(mappedBy = "creator")
+    public Set<Article> articles;
 
     public User(String email, String username, String password) {
         this.email = email;

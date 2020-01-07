@@ -1,9 +1,9 @@
-package io.ren.api.domain;
+package io.ren.api.domain.optional;
+
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,14 +11,15 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(name = "TAGS")
-public class Tag {
+@Table(name = "DOMAINS")
+public class Domain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    public String text;
 
-    @ManyToMany(mappedBy = "tags")
-    public Set<Question> questions;
+    public String name;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    public Company company;
 }

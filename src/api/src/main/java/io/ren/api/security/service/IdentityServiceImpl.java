@@ -1,11 +1,9 @@
 package io.ren.api.security.service;
 
 import java.util.Optional;
-import java.util.UUID;
 
+import io.ren.api.aop.EnteringExitingLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,8 @@ import io.ren.api.repository.RefreshTokenRepository;
 
 @Service
 public class IdentityServiceImpl implements IdentityService {
+    private static final String INVALID_CREDENTIALS = "Invalid credentials.";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -32,11 +32,12 @@ public class IdentityServiceImpl implements IdentityService {
     @Autowired
     private RefreshTokenHandler refreshTokenHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+
+
+    @EnteringExitingLog
     @Override
     public void signUp(String email, String username, String password) throws RenException {
         Optional<User> user = userRepository.findByEmail(email);
@@ -44,21 +45,22 @@ public class IdentityServiceImpl implements IdentityService {
             throw new RenException(String.format("Email: '%s' is already in use.", email));
         }
 
-        String passwordHashed = passwordEncoder().encode(password);
+        String passwordHashed = passwordEncoder.encode(password);
         User newUser = new User(email, username, passwordHashed);
         userRepository.save(newUser);
     }
 
+    @EnteringExitingLog
     @Override
     public JsonWebToken signIn(String email, String password) throws RenException {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new RenException("Invalid credentials.");
+        if (!user.isPresent()) {
+            throw new RenException(INVALID_CREDENTIALS);
         }
 
         User actualUser = user.get();
-        if (!passwordEncoder().matches(password, actualUser.getPassword())) {
-            throw new RenException("Invalid credentials.");
+        if (!passwordEncoder.matches(password, actualUser.getPassword())) {
+            throw new RenException(INVALID_CREDENTIALS);
         }
 
         Long userId = actualUser.getId();
@@ -68,23 +70,25 @@ public class IdentityServiceImpl implements IdentityService {
         return new JsonWebToken(accessToken, refreshToken.getToken());
     }
 
+    @EnteringExitingLog
     @Override
     public void changePassword(Long userId, String currentPassword, String newPassword) throws RenException {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new RenException(String.format("User with id: '%s' was not found.", userId));
         }
 
         User actualUser = user.get();
-        if (!passwordEncoder().matches(currentPassword, actualUser.getPassword())) {
-            throw new RenException("Invalid credentials.");
+        if (!passwordEncoder.matches(currentPassword, actualUser.getPassword())) {
+            throw new RenException(INVALID_CREDENTIALS);
         }
 
-        String newPasswordHashed = passwordEncoder().encode(newPassword);
+        String newPasswordHashed = passwordEncoder.encode(newPassword);
         actualUser.setPassword(newPasswordHashed);
         userRepository.save(actualUser);
     }
 
+    @EnteringExitingLog
     @Override
     public JsonWebToken refresh(String token) throws RenException {
         Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByToken(token);

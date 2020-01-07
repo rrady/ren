@@ -3,8 +3,6 @@ package io.ren.api.repository;
 import io.ren.api.domain.Comment;
 import org.springframework.data.repository.CrudRepository;
 
-/**
- * Created by aneagu on 20/11/2019
- */
+
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 }

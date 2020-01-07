@@ -5,9 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by aneagu on 20/11/2019
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,6 +16,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+
     public String text;
 
     @Temporal(value = TemporalType.DATE)
