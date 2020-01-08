@@ -1,11 +1,9 @@
 package io.ren.api.domain;
 
-import java.util.Set;
+import lombok.*;
 
 import javax.persistence.*;
-
-import io.ren.api.domain.optional.Article;
-import lombok.*;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,9 +33,6 @@ public class User {
 
     @OneToMany(mappedBy = "creator")
     public Set<Comment> comments;
-
-    @OneToMany(mappedBy = "creator")
-    public Set<Article> articles;
 
     public User(String email, String username, String password) {
         this.email = email;

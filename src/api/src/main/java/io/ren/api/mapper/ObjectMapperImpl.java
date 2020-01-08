@@ -36,36 +36,41 @@ public class ObjectMapperImpl implements ObjectMapper {
 
     @Override
     public CommentDto convertCommentToCommentDto(Comment comment) {
-        return null;
+        return modelMapper.map(comment, CommentDto.class);
     }
 
     @Override
     public Answer convertAnswerDtoToAnswer(AnswerDto answerDto) {
-        return null;
+        return modelMapper.map(answerDto, Answer.class);
+
     }
 
     @Override
     public AnswerDto convertAnswerToAnswerDto(Answer answer) {
-        return null;
+        return modelMapper.map(answer, AnswerDto.class);
+
     }
 
     @Override
     public Tag convertTagDtoToTag(TagDto tagDto) {
-        return null;
+        return modelMapper.map(tagDto, Tag.class);
+
     }
 
     @Override
     public TagDto convertTagToTagDto(Tag tag) {
-        return null;
+        return modelMapper.map(tag, TagDto.class);
+
     }
 
     @Override
     public User convertUserDtoToUser(UserDto userDto) {
-        return null;
+        return modelMapper.map(userDto, User.class);
     }
 
     @Override
     public UserDto convertUserToUserDto(User user) {
-        return null;
+        return modelMapper.map(user, UserDto.class);
+
     }
 }
