@@ -36,5 +36,12 @@ public class IdentityController {
         JsonWebToken jsonWebToken = identityService.signIn(signInModel.getEmail(), signInModel.getPassword());
 
         return ResponseEntity.ok().body(jsonWebToken);
-    } 
+    }
+    
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<JsonWebToken> refresh() throws RenException {
+        JsonWebToken jsonWebToken = identityService.refresh("");
+
+        return ResponseEntity.ok().body(jsonWebToken);
+    }
 }

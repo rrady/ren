@@ -7,15 +7,15 @@ import javax.persistence.*;
 import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name="comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private User user;
     @ManyToOne
     private Question question;

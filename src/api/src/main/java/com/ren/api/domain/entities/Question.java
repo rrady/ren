@@ -12,15 +12,15 @@ import javax.persistence.*;
 import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"id"})
 @Entity
 @Table(name = "questions")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private User user;
     private String title;
     private String description;

@@ -5,8 +5,8 @@ import javax.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
-@Data
-@EqualsAndHashCode(of = "name")
+@Getter
+@Setter
 @Entity
 @Table(name = "tags")
 public class Tag {
