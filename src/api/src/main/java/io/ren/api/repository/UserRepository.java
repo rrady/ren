@@ -1,11 +1,12 @@
 package io.ren.api.repository;
 
-import java.util.Optional;
-
+import io.ren.api.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
-import io.ren.api.domain.User;
+import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
+    Optional<User> findByUsernameOrEmail(String username, String email);
+
     Optional<User> findByEmail(String email);
 }

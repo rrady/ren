@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Created by aneagu on 03/01/2020.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

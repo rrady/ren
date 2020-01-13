@@ -7,6 +7,9 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by aneagu on 03/01/2020.
+ */
 @Component
 public class ObjectMapperImpl implements ObjectMapper {
 
