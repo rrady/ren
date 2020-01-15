@@ -1,10 +1,9 @@
-package com.ren.api.domain.entities;
-
-import java.util.Date;
-
-import javax.persistence.*;
+package com.ren.api.domain;
 
 import lombok.*;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +11,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "refresh_tokens")
+@Table
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

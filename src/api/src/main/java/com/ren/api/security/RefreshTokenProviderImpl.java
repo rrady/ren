@@ -1,14 +1,13 @@
 package com.ren.api.security;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
-
+import com.ren.api.domain.RefreshToken;
+import com.ren.api.domain.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.ren.api.domain.entities.RefreshToken;
-import com.ren.api.domain.entities.User;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class RefreshTokenProviderImpl implements RefreshTokenProvider {

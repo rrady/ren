@@ -1,19 +1,18 @@
 package com.ren.api.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import com.ren.api.domain.entities.RefreshToken;
-import com.ren.api.domain.entities.User;
-import com.ren.api.domain.exceptions.RenException;
+import com.ren.api.domain.RefreshToken;
+import com.ren.api.domain.User;
+import com.ren.api.exceptions.RenException;
 import com.ren.api.model.JsonWebToken;
 import com.ren.api.repository.RefreshTokenRepository;
 import com.ren.api.repository.UserRepository;
 import com.ren.api.security.AccessTokenProvider;
 import com.ren.api.security.RefreshTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class IdentityServiceImpl implements IdentityService {
@@ -26,7 +25,7 @@ public class IdentityServiceImpl implements IdentityService {
 
     @Autowired
     public IdentityServiceImpl(UserRepository userRepository, RefreshTokenRepository refreshTokenRepository,
-        AccessTokenProvider accessTokenProvider, RefreshTokenProvider refreshTokenProvider, PasswordEncoder passwordEncoder) {
+                                     AccessTokenProvider accessTokenProvider, RefreshTokenProvider refreshTokenProvider, PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
@@ -50,7 +49,7 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public JsonWebToken signIn(String email, String password) throws RenException {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new RenException("Invalid credentials.");
         }
 
@@ -69,7 +68,7 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public void changePassword(Long userId, String currentPassword, String newPassword) throws RenException {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new RenException(String.format("User with id: '%s' was not found.", userId));
         }
 
@@ -86,7 +85,7 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public JsonWebToken refresh(String refreshToken) throws RenException {
         Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByToken(refreshToken);
-        if (optionalRefreshToken.isEmpty()) {
+        if (!optionalRefreshToken.isPresent()) {
             throw new RenException("Refresh token was not found.");
         }
 
