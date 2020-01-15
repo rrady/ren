@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -21,13 +15,12 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  toggleModal() {
+  toggle() {
     this.visible = !this.visible;
     this.onToggle.emit(this.visible);
   }
 
-  onSaveClick() {
+  save() {
     this.onSave.emit();
   }
-
 }

@@ -1,0 +1,16 @@
+<app-modal [title]="'Login'" [visible]="visible" (onSave)="login()" (onToggle)="onToggleModal($event)">
+  <form class="form" role="form" [formGroup]="loginForm">
+    <div class="field">
+        <label class="label" for="email">Email</label>
+        <div class="control">
+          <input type="text" class="form-control" name="email" id="email" placeholder="john.doe@gmail.com" formControlName="email">
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="control">
+          <input type="password" class="form-control" name="password" id="password" formControlName="password">
+        </div>
+    </div>
+  </form>
+</app-modal>
