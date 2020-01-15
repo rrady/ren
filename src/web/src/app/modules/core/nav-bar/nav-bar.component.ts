@@ -10,7 +10,7 @@ export class NavBarComponent implements OnInit {
   showLoginModal: boolean = false;
   showRegisterModal: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }
