@@ -1,9 +1,11 @@
 package com.ren.api.service;
 
+import com.ren.api.domain.Tag;
 import com.ren.api.dto.TagDto;
 import com.ren.api.mapper.ObjectMapper;
 import com.ren.api.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,9 +28,16 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<TagDto> findAllTags() {
+    public void save(TagDto tagDto) {
+        Tag tag = objectMapper.convertTagDtoToTag(tagDto);
+        tagRepository.save(tag);
+    }
+
+    @Override
+    public List<TagDto> findAll() {
         List<TagDto> result = new ArrayList<>();
         tagRepository.findAll().forEach(tag -> result.add(objectMapper.convertTagToTagDto(tag)));
+
         return result;
     }
 

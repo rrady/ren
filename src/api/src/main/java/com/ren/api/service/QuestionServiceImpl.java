@@ -1,8 +1,8 @@
 package com.ren.api.service;
 
 import com.ren.api.domain.Question;
-import com.ren.api.domain.Tag;
 import com.ren.api.dto.QuestionDto;
+import com.ren.api.exceptions.NotFoundException;
 import com.ren.api.mapper.ObjectMapper;
 import com.ren.api.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Created by aneagu on 08/01/2020.
@@ -23,25 +22,23 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    private final TagService tagService;
-
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository, TagService tagService, ObjectMapper objectMapper) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, ObjectMapper objectMapper) {
         this.questionRepository = questionRepository;
-        this.tagService = tagService;
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public void createQuestion(QuestionDto questionDto, List<Long> tagIds) {
-        Question question = objectMapper.convertQuestionDtoToQuestion(questionDto);
-        Set<Tag> tags = tagService.findAllByIds(tagIds)
-                .stream().map(objectMapper::convertTagDtoToTag)
-                .collect(Collectors.toSet());
-        question.setTags(tags);
-        questionRepository.save(question);
+    public void update(Long id, QuestionDto questionDto) {
+        Optional<Question> optional = questionRepository.findById(id);
+        if (optional.isPresent()) {
+            Question question = objectMapper.convertQuestionDtoToQuestion(questionDto);
+            questionRepository.save(question);
+        } else {
+            throw new NotFoundException("Entity: " + Question.class + " not found!");
+        }
     }
 
     @Override
@@ -56,5 +53,11 @@ public class QuestionServiceImpl implements QuestionService {
     public Page<QuestionDto> getQuestionsPaginated(Pageable pageable) {
         return questionRepository.findAll(pageable)
                 .map(objectMapper::convertQuestionToQuestionDto);
+    }
+
+    @Override
+    public void save(QuestionDto questionDto) {
+        Question question = objectMapper.convertQuestionDtoToQuestion(questionDto);
+        questionRepository.save(question);
     }
 }

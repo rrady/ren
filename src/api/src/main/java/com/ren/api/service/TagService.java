@@ -8,7 +8,10 @@ import java.util.List;
  * Created by aneagu on 13/01/2020.
  */
 public interface TagService {
-    List<TagDto> findAllTags();
+
+    void save(TagDto tagDto);
+
+    List<TagDto> findAll();
 
     List<TagDto> findAllByIds(List<Long> ids);
 }

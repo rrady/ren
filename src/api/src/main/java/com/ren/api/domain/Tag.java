@@ -16,12 +16,18 @@ import java.util.Set;
 @Entity
 @Table
 public class Tag {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String text;
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String text;
 
     @ManyToMany(mappedBy = "tags")
-    public Set<Question> questions;
+    private Set<Question> questions;
 
 }

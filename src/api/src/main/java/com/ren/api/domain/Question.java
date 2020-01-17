@@ -17,27 +17,32 @@ import java.util.Set;
 @Entity
 @Table
 public class Question {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String text;
-    public String title;
-    public Integer viewCount;
+    private Long id;
+
+    @Column(nullable = false)
+    private String text;
+
+    @Column(nullable = false)
+    private String title;
+
+    private Integer viewCount;
 
     @Temporal(value = TemporalType.DATE)
-    public Date createdOn;
+    private Date createdOn;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public User creator;
+    private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "questions_tags",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    public Set<Tag> tags;
+    private Set<Tag> tags;
 
-    @OneToMany(mappedBy = "question")
-    public Set<Answer> answers;
-
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private Set<Answer> answers;
 }

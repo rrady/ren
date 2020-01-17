@@ -10,7 +10,9 @@ import java.util.List;
  * Created by aneagu on 08/01/2020.
  */
 public interface QuestionService {
-    void createQuestion(QuestionDto questionDto, List<Long> tagIds);
+    void save(QuestionDto questionDto);
+
+    void update(Long id, QuestionDto questionDto);
 
     List<QuestionDto> findAll();
 

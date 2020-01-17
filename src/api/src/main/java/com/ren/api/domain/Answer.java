@@ -20,26 +20,29 @@ import java.util.Set;
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String text;
+    private Long id;
 
-    //    TODO: trebuie gasita o modalitate prin care sa nu dea acelasi utilizator de mai multe ori rating pentru answer
-    public Integer rating;
+    @Column(nullable = false)
+    private String text;
 
-    @Temporal(value = TemporalType.DATE)
-    public Date createdOn;
+    private Integer rating;
 
     @Temporal(value = TemporalType.DATE)
-    public Date editedOn;
+    @Column(nullable = false)
+    private Date createdOn;
+
+    @Temporal(value = TemporalType.DATE)
+    @Column(nullable = false)
+    private Date editedOn;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public User creator;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
-    public Question question;
+    private Question question;
 
     @OneToMany(mappedBy = "answer")
-    public Set<Comment> comments;
+    private Set<Comment> comments;
 }

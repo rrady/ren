@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -27,10 +26,8 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/add")
-    @ResponseBody
-    public ResponseEntity<String> postQuestion(@RequestBody @NotNull @Valid QuestionDto questionDto, @NotNull @Size(min = 1) List<Long> tags) {
-        questionService.createQuestion(questionDto, tags);
-
+    public ResponseEntity<String> postQuestion(@RequestBody @Valid QuestionDto questionDto) {
+        questionService.save(questionDto);
         return ResponseEntity.status(HttpStatus.OK).body("Question successfully inserted!");
     }
 
@@ -40,7 +37,12 @@ public class QuestionController {
                                                           @RequestParam(name = "sort", defaultValue = "DESC") String sort,
                                                           @RequestParam(name = "sortedParam", defaultValue = "createdOn") String sortedParam) {
         Page<QuestionDto> questionDtoPage = questionService.getQuestionsPaginated(PageRequest.of(page, size, Sort.Direction.valueOf(sort), sortedParam));
-
         return ResponseEntity.ok(questionDtoPage);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<String> updateQuestion(@PathParam("id") Long id, @RequestBody @NotNull @Valid QuestionDto questionDto) {
+        questionService.update(id, questionDto);
+        return ResponseEntity.status(HttpStatus.OK).body("Question successfully updated!");
     }
 }

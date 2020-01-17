@@ -13,12 +13,17 @@ import java.util.Date;
 @Entity
 @Table
 public class RefreshToken {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     private User user;
+
+    @Column(nullable = false)
     private String token;
+
     @Temporal(value = TemporalType.DATE)
     private Date createdAt;
 

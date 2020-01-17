@@ -16,21 +16,29 @@ import java.util.Set;
 @Entity
 @Table
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "creator")
+
+    @OneToMany(mappedBy = "user")
     public Set<Question> questions;
-    @OneToMany(mappedBy = "creator")
+
+    @OneToMany(mappedBy = "user")
     public Set<Answer> answers;
+
     @OneToMany(mappedBy = "creator")
     public Set<Comment> comments;
+
     @Column(name = "email", nullable = false)
     private String email;
+
     @Column(name = "username", nullable = false)
     private String username;
+
     @Column(name = "password", nullable = false)
     private String password;
+
     @Column(name = "image")
     private String image;
 

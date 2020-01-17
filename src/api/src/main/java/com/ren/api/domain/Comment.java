@@ -18,18 +18,20 @@ import java.util.Date;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
-    public String text;
+    @Column(nullable = false)
+    private String text;
 
     @Temporal(value = TemporalType.DATE)
-    public Date createdOn;
+    @Column(nullable = false)
+    private Date createdOn;
 
     @ManyToOne
     @JoinColumn(name = "answer_id")
-    public Answer answer;
+    private Answer answer;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public User creator;
+    private User creator;
 }

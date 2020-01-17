@@ -1,6 +1,8 @@
 package com.ren.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class AnswerDto {
 
     public Long id;
@@ -24,7 +27,6 @@ public class AnswerDto {
     @NotNull
     public String text;
 
-    @Size(min = 0)
     @NotNull
     public Integer rating;
 
@@ -36,5 +38,10 @@ public class AnswerDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public Date editedOn;
 
-    public Set<Long> commentIds;
+    public UserDto user;
+
+    public QuestionDto question;
+
+    public Set<CommentDto> comments;
+
 }

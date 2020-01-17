@@ -1,12 +1,9 @@
 package com.ren.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ren.api.domain.Answer;
-import com.ren.api.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,10 +12,12 @@ import java.util.Date;
 /**
  * Created by aneagu on 03/01/2020.
  */
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CommentDto {
 
     public Long id;
@@ -31,8 +30,8 @@ public class CommentDto {
     public Date createdOn;
 
     @NotNull
-    public Answer answerId;
+    public AnswerDto answer;
 
     @NotNull
-    public User creatorId;
+    public UserDto user;
 }
