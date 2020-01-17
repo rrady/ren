@@ -1,0 +1,31 @@
+<app-modal [title]="'Register'" [visible]="visible" (onSave)="register()" (onToggle)="onToggleModal($event)">
+  <form class="form" role="form" [formGroup]="registerForm">
+    <div class="field">
+      <label class="label" for="username">Username</label>
+      <div class="control">
+        <input type="text" class="form-control" name="username" id="username" placeholder="John Doe" formControlName="username">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label" for="email">Email</label>
+      <div class="control">
+        <input type="text" class="form-control" name="email" id="email" placeholder="john.doe@gmail.com" formControlName="email">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label" for="password">Password</label>
+      <div class="control">
+        <input type="password" class="form-control" name="password" id="password" formControlName="password">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label" for="confirmPassword">Confirm password</label>
+      <div class="control">
+        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword">
+      </div>
+    </div>
+  </form>
+</app-modal>

@@ -1,12 +1,35 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SharedLibsModule } from './shared-libs.module';
+import { ModalComponent } from '@app/modules/shared/modal/modal.component';
+import { SearchBoxComponent } from '@app/modules/shared/search-box/search-box.component';
 
 @NgModule({
-  imports: [SharedLibsModule],
-  declarations: [],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  declarations: [
+    SearchBoxComponent,
+    ModalComponent
+  ],
   exports: [
-    SharedLibsModule
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SearchBoxComponent,
+    ModalComponent
   ]
 })
 export class SharedModule { }

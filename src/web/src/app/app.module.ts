@@ -1,37 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from '@app/modules/shared/shared.module';
+import { CoreModule } from '@app/modules/core/core.module';
+import { AuthModule } from '@app/modules/auth/auth.module';
 
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-
-import { AppComponent } from './app.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { MegaMenuComponent } from './components/mega-menu/mega-menu.component';
-import { SearchBoxComponent } from './components/search-box/search-box.component';
-import { ModalComponent } from './components/modal/modal.component';
+import { AppComponent } from '@app/app.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavBarComponent,
-    MegaMenuComponent,
-    SearchBoxComponent,
-    ModalComponent
+    AppComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
-    })
+    SharedModule,
+    CoreModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

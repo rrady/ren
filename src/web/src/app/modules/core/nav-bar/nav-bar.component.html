@@ -1,0 +1,33 @@
+<nav class="navbar has-shadow">
+  <a class="navbar-item" style="margin-left:2rem;">
+    <img src="https://cdn.discordapp.com/attachments/232822734713913346/637688181856141342/renlogo.png">
+  </a>
+  <div class="is-divider-vertical"></div>
+  <a class="navbar-item">
+    <button class="button is-link">
+      Ask
+    </button>
+  </a>
+  <div class="navbar-item navbar-center">
+    <app-search-box></app-search-box>
+  </div>
+  <div class="navbar-item">
+    <div *ngIf="authService.isAuthenticated; else elseBlock">
+      {{authService.username}}
+      <button class="button is-link" (click)="authService.logout()">
+        Logout
+      </button>
+    </div>
+    <ng-template #elseBlock>
+      <button class="button is-link" (click)="toggleLoginModal(true)">
+        Login
+      </button>
+      <div class="is-divider-vertical"></div>
+      <button class="button is-link" (click)="toggleRegisterModal(true)">
+        Register
+      </button>
+    </ng-template>
+    <app-login [visible]="showLoginModal" (onToggle)="toggleLoginModal($event)"></app-login>
+    <app-register [visible]="showRegisterModal" (onToggle)="toggleRegisterModal($event)"></app-register>
+  </div>
+</nav>
