@@ -1,23 +1,20 @@
 package com.ren.api.controller;
 
-import com.ren.api.dto.AnswerDto;
-import com.ren.api.dto.QuestionDto;
-import com.ren.api.service.AnswerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.websocket.server.PathParam;
-import java.util.List;
 
-/**
- * Created by aneagu on 14/01/2020.
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.ren.api.dto.AnswerDto;
+import com.ren.api.exceptions.RenException;
+import com.ren.api.service.AnswerService;
+
 @RestController
-@RequestMapping(value = "/api/answers/")
+@RequestMapping(value = "/api/question/{questionId}/answear")
 public class AnswerController {
 
     private final AnswerService answerService;
@@ -27,21 +24,27 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<String> postAnswer(@RequestBody @NotNull @Valid AnswerDto answerDto) {
+    @PostMapping()
+    public ResponseEntity<?> postAnswer(@PathVariable(value = "questionId") Long questionId,
+        @RequestBody @NotNull @Valid AnswerDto answerDto) {
+
+        if (answerDto.getQuestionId() == null) {
+            answerDto.setQuestionId(questionId);
+        }
+
         answerService.save(answerDto);
-        return ResponseEntity.ok("Answer successfully inserted!");
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/question/{questionId}")
-    public ResponseEntity<List<AnswerDto>> getAnswersForQuestion(@PathParam(value = "questionId") Long questionId) {
+    @GetMapping()
+    public ResponseEntity<List<AnswerDto>> getAnswersForQuestion(@PathVariable(value = "questionId") Long questionId) {
         List<AnswerDto> resultList = answerService.findAllByQuestionId(questionId);
         return ResponseEntity.ok(resultList);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> updateAnswer(@PathParam("id") Long id, @RequestBody @NotNull @Valid AnswerDto answerDto) {
+    public ResponseEntity<?> updateAnswer(@PathVariable("id") Long id, @RequestBody @NotNull @Valid AnswerDto answerDto) throws RenException {
         answerService.update(id, answerDto);
-        return ResponseEntity.status(HttpStatus.OK).body("Answer successfully updated!");
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,21 +1,21 @@
 package com.ren.api.controller;
 
-import com.ren.api.dto.QuestionDto;
-import com.ren.api.service.QuestionService;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.websocket.server.PathParam;
+import com.ren.api.dto.QuestionDto;
+import com.ren.api.exceptions.RenException;
+import com.ren.api.service.QuestionService;
 
 @RestController
-@RequestMapping("/api/questions")
+@RequestMapping("/api/question")
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -25,15 +25,15 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<String> postQuestion(@RequestBody @Valid QuestionDto questionDto) {
+    @PostMapping()
+    public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto questionDto) {
         questionService.save(questionDto);
-        return ResponseEntity.status(HttpStatus.OK).body("Question successfully inserted!");
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping()
     public ResponseEntity<Page<QuestionDto>> getQuestions(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                          @RequestParam(name = "size", defaultValue = "15") int size,
+                                                          @RequestParam(name = "size", defaultValue = "10") int size,
                                                           @RequestParam(name = "sort", defaultValue = "DESC") String sort,
                                                           @RequestParam(name = "sortedParam", defaultValue = "createdOn") String sortedParam) {
         Page<QuestionDto> questionDtoPage = questionService.getQuestionsPaginated(PageRequest.of(page, size, Sort.Direction.valueOf(sort), sortedParam));
@@ -41,8 +41,8 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> updateQuestion(@PathParam("id") Long id, @RequestBody @NotNull @Valid QuestionDto questionDto) {
+    public ResponseEntity<String> updateQuestion(@PathVariable("id") Long id, @RequestBody @NotNull @Valid QuestionDto questionDto) throws RenException {
         questionService.update(id, questionDto);
-        return ResponseEntity.status(HttpStatus.OK).body("Question successfully updated!");
+        return ResponseEntity.noContent().build();
     }
 }

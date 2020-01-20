@@ -1,13 +1,11 @@
 package com.ren.api.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by aneagu on 03/01/2020.
- */
+import javax.persistence.*;
+
+import lombok.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,18 +31,15 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "image")
-    private String image;
-
-    public User(String email, String username, String password) {
+    public User(String email, String name, String password) {
         this.email = email;
-        this.username = username;
+        this.name = name;
         this.password = password;
     }
 }

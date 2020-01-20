@@ -1,24 +1,21 @@
 package com.ren.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import java.util.Date;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
-/**
- * Created by aneagu on 03/01/2020.
- */
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import lombok.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class QuestionDto {
 
@@ -32,14 +29,16 @@ public class QuestionDto {
     @Size(min = 4, max = 150)
     public String title;
 
-    public Integer viewCount;
+    public Integer viewCount = 0;
 
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    public Date createdOn;
+    public Date createdOn = new Date();
 
     @NotNull
-    public UserDto user;
+    public Long userId;
+
+    public String userName;
 
     public Set<TagDto> tags;
 

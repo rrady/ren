@@ -10,14 +10,10 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
-/**
- * Created by aneagu on 03/01/2020.
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class AnswerDto {
 
@@ -28,19 +24,20 @@ public class AnswerDto {
     public String text;
 
     @NotNull
-    public Integer rating;
+    public Integer rating = 0;
 
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    public Date createdOn;
+    public Date createdOn = new Date();
 
-    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public Date editedOn;
 
-    public UserDto user;
+    public Long userId;
 
-    public QuestionDto question;
+    public String userName;
+
+    public Long questionId;
 
     public Set<CommentDto> comments;
 

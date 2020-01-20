@@ -22,7 +22,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.accessTokenProvider = accessTokenProvider;
     }
 
-//    TODO: re-enable authorization when we're done testing
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
@@ -36,9 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-//                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/**").authenticated()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .apply(jwtConfigurerAdapter());

@@ -1,15 +1,14 @@
 package com.ren.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
-
-import javax.validation.constraints.Size;
 import java.util.Set;
 
-/**
- * Created by aneagu on 03/01/2020.
- */
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import lombok.*;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,8 +18,6 @@ import java.util.Set;
 public class TagDto {
 
     public Long id;
-
-    public String name;
 
     @Size(min = 3, max = 30)
     public String text;

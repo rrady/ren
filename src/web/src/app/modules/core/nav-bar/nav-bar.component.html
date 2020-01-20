@@ -4,7 +4,7 @@
   </a>
   <div class="is-divider-vertical"></div>
   <a class="navbar-item">
-    <button class="button is-link">
+    <button class="button is-link" [disabled]="!authService.isAuthenticated">
       Ask
     </button>
   </a>
@@ -19,13 +19,14 @@
       </button>
     </div>
     <ng-template #elseBlock>
-      <button class="button is-link" (click)="toggleLoginModal(true)">
-        Login
-      </button>
-      <div class="is-divider-vertical"></div>
-      <button class="button is-link" (click)="toggleRegisterModal(true)">
-        Register
-      </button>
+      <div class="buttons">
+        <button class="button is-link" (click)="toggleLoginModal(true)">
+          Login
+        </button>
+        <button class="button is-link" (click)="toggleRegisterModal(true)">
+          Register
+        </button>
+      </div>
     </ng-template>
     <app-login [visible]="showLoginModal" (onToggle)="toggleLoginModal($event)"></app-login>
     <app-register [visible]="showRegisterModal" (onToggle)="toggleRegisterModal($event)"></app-register>

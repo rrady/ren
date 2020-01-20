@@ -4,6 +4,7 @@ import { SharedModule } from '@app/modules/shared/shared.module';
 
 import { RegisterComponent } from '@app/modules/auth/register/register.component';
 import { LoginComponent } from '@app/modules/auth/login/login.component';
+import { ChangePasswordComponent } from '@app/modules/auth/change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -11,11 +12,13 @@ import { LoginComponent } from '@app/modules/auth/login/login.component';
   ],
   declarations: [
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ChangePasswordComponent
   ],
   exports: [
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ChangePasswordComponent
   ]
 })
 export class AuthModule { }

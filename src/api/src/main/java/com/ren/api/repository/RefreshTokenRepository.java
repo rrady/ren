@@ -1,10 +1,11 @@
 package com.ren.api.repository;
 
-import com.ren.api.domain.RefreshToken;
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.ren.api.domain.RefreshToken;
 
 @Repository
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, Long> {

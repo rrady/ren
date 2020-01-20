@@ -1,21 +1,19 @@
 package com.ren.api.service;
 
-import com.ren.api.domain.Answer;
-import com.ren.api.domain.Question;
-import com.ren.api.dto.AnswerDto;
-import com.ren.api.exceptions.NotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.ren.api.mapper.ObjectMapper;
 import com.ren.api.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.ren.api.domain.Answer;
+import com.ren.api.dto.AnswerDto;
+import com.ren.api.exceptions.Codes;
+import com.ren.api.exceptions.RenException;
 
-/**
- * Created by aneagu on 13/01/2020.
- */
 @Service
 public class AnswerServiceImpl implements AnswerService {
 
@@ -35,13 +33,13 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void update(Long id, AnswerDto answerDto) {
+    public void update(Long id, AnswerDto answerDto) throws RenException {
         Optional<Answer> optional = answerRepository.findById(id);
         if (optional.isPresent()) {
             Answer answer = objectMapper.convertAnswerDtoToAnswer(answerDto);
             answerRepository.save(answer);
         } else {
-            throw new NotFoundException("Entity: " + Answer.class + " not found!");
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Answer with id: '%s' was not found.", id));
         }
     }
 
@@ -49,7 +47,8 @@ public class AnswerServiceImpl implements AnswerService {
     public List<AnswerDto> findAllByQuestionId(Long questionId) {
         List<AnswerDto> resultList = new ArrayList<>();
         answerRepository.findAllByQuestionId(questionId)
-                .forEach(answer -> resultList.add(objectMapper.convertAnswerToAnswerDto(answer)));
+            .forEach(answer -> resultList.add(objectMapper.convertAnswerToAnswerDto(answer)));
+            
         return resultList;
     }
 }

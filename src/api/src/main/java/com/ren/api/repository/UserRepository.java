@@ -1,10 +1,11 @@
 package com.ren.api.repository;
 
-import com.ren.api.domain.User;
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.ren.api.domain.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {

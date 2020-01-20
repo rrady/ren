@@ -4,6 +4,7 @@ import { SharedModule } from '@app/modules/shared/shared.module';
 import { AuthModule } from '@app/modules/auth/auth.module';
 
 import { NavBarComponent } from '@app/modules/core/nav-bar/nav-bar.component';
+import { FeedComponent } from '@app/modules/core/feed/feed.component';
 
 @NgModule({
   imports: [
@@ -11,10 +12,12 @@ import { NavBarComponent } from '@app/modules/core/nav-bar/nav-bar.component';
     AuthModule
   ],
   declarations: [
-    NavBarComponent
+    NavBarComponent,
+    FeedComponent
   ],
   exports: [
-    NavBarComponent
+    NavBarComponent,
+    FeedComponent
   ]
 })
 export class CoreModule { }

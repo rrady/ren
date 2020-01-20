@@ -2,6 +2,7 @@ package com.ren.api.security;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
@@ -28,11 +29,15 @@ public class AccessTokenProviderImpl implements AccessTokenProvider {
     private String audience;
 
     @Override
-    public String createToken(Long userId) {
+    public String createToken(Long userId, String username, String email) {
         SecretKey secretKey = getSecreyKey();
+        Map<String, Object> additionalClaims = new HashMap<>();
+        additionalClaims.put("username", username);
+        additionalClaims.put("email", email);     
 
         return Jwts.builder()
             .setSubject(userId.toString())
+            .addClaims(additionalClaims)
             .setIssuer(issuer)
             .setAudience(audience)
             .setExpiration(expireTimeFromNow())

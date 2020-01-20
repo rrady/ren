@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ModalComponent } from '@app/modules/shared/modal/modal.component';
 import { SearchBoxComponent } from '@app/modules/shared/search-box/search-box.component';
+import { PaginatedGridComponent } from '@app/modules/shared/paginated-grid/paginated-grid.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { SearchBoxComponent } from '@app/modules/shared/search-box/search-box.co
   ],
   declarations: [
     SearchBoxComponent,
-    ModalComponent
+    ModalComponent,
+    PaginatedGridComponent
   ],
   exports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { SearchBoxComponent } from '@app/modules/shared/search-box/search-box.co
     FormsModule,
     ReactiveFormsModule,
     SearchBoxComponent,
-    ModalComponent
+    ModalComponent,
+    PaginatedGridComponent
   ]
 })
 export class SharedModule { }

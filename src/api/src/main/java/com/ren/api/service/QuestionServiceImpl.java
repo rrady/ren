@@ -1,22 +1,19 @@
 package com.ren.api.service;
 
-import com.ren.api.domain.Question;
-import com.ren.api.dto.QuestionDto;
-import com.ren.api.exceptions.NotFoundException;
-import com.ren.api.mapper.ObjectMapper;
-import com.ren.api.repository.QuestionRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.ren.api.domain.Question;
+import com.ren.api.dto.QuestionDto;
+import com.ren.api.exceptions.Codes;
+import com.ren.api.exceptions.RenException;
+import com.ren.api.mapper.ObjectMapper;
+import com.ren.api.repository.QuestionRepository;
 
-/**
- * Created by aneagu on 08/01/2020.
- */
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
@@ -31,28 +28,21 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void update(Long id, QuestionDto questionDto) {
+    public void update(Long id, QuestionDto questionDto) throws RenException {
         Optional<Question> optional = questionRepository.findById(id);
         if (optional.isPresent()) {
             Question question = objectMapper.convertQuestionDtoToQuestion(questionDto);
+            question.setId(id);
             questionRepository.save(question);
         } else {
-            throw new NotFoundException("Entity: " + Question.class + " not found!");
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Question with id: '%s' was not found.", id));
         }
-    }
-
-    @Override
-    public List<QuestionDto> findAll() {
-        List<QuestionDto> questionDtoList = new ArrayList<>();
-        questionRepository.findAll().forEach(question -> questionDtoList.add(objectMapper.convertQuestionToQuestionDto(question)));
-
-        return questionDtoList;
     }
 
     @Override
     public Page<QuestionDto> getQuestionsPaginated(Pageable pageable) {
         return questionRepository.findAll(pageable)
-                .map(objectMapper::convertQuestionToQuestionDto);
+            .map(objectMapper::convertQuestionToQuestionDto);
     }
 
     @Override

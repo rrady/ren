@@ -1,9 +1,10 @@
 package com.ren.api.domain;
 
-import lombok.*;
+import java.util.Date;
 
 import javax.persistence.*;
-import java.util.Date;
+
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,15 +1,12 @@
 package com.ren.api.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.*;
 
-/**
- * Created by aneagu on 03/01/2020.
- */
+import lombok.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -32,7 +29,7 @@ public class Answer {
     private Date createdOn;
 
     @Temporal(value = TemporalType.DATE)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date editedOn;
 
     @ManyToOne

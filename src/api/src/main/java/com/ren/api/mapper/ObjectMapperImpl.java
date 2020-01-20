@@ -1,11 +1,13 @@
 package com.ren.api.mapper;
 
-import com.ren.api.domain.*;
-import com.ren.api.dto.*;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+
+import com.ren.api.domain.*;
+import com.ren.api.dto.*;
 
 @Component
 public class ObjectMapperImpl implements ObjectMapper {
@@ -16,7 +18,7 @@ public class ObjectMapperImpl implements ObjectMapper {
     public ObjectMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
     }
 
     @Override

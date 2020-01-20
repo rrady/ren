@@ -1,21 +1,18 @@
 package com.ren.api.service;
 
-
-import com.ren.api.domain.Comment;
-import com.ren.api.dto.AnswerDto;
-import com.ren.api.dto.CommentDto;
-import com.ren.api.exceptions.NotFoundException;
-import com.ren.api.mapper.ObjectMapper;
-import com.ren.api.repository.CommentRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by aneagu on 14/01/2020.
- */
+import org.springframework.stereotype.Service;
+
+import com.ren.api.domain.Comment;
+import com.ren.api.dto.CommentDto;
+import com.ren.api.exceptions.Codes;
+import com.ren.api.exceptions.RenException;
+import com.ren.api.mapper.ObjectMapper;
+import com.ren.api.repository.CommentRepository;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -34,13 +31,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void update(Long id, CommentDto commentDto) {
+    public void update(Long id, CommentDto commentDto) throws RenException {
         Optional<Comment> optional = commentRepository.findById(id);
         if (optional.isPresent()) {
             Comment answer = objectMapper.convertCommentDtoToComment(commentDto);
             commentRepository.save(answer);
         } else {
-            throw new NotFoundException("Entity: " + Comment.class + " not found!");
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Comment with id: '%s' was not found!", id));
         }
     }
 

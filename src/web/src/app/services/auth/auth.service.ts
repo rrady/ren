@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import * as jwt_decode from 'jwt-decode';
 
-import { JsonWebToken } from '@app/models';
+import { JsonWebToken } from '@app/models/jsonWebToken.model';
 import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 
@@ -35,12 +35,7 @@ export class AuthService {
     }
 
     register(username: string, email: string, password: string) {
-      return this.http.post<any>(`${environment.renApi}/auth/sign-up`, { username, email, password })
-        .pipe(map(auth => {
-          localStorage.setItem('ren-auth', JSON.stringify(auth));
-          this.currentAuthSubject.next(auth);
-          return auth;
-        }));
+      return this.http.post<any>(`${environment.renApi}/auth/sign-up`, { username, email, password });
     }
 
     login(email: string, password: string) {
@@ -53,11 +48,20 @@ export class AuthService {
     }
 
     refresh() {
+      return this.http.post<any>(`${environment.renApi}/auth/${this.currentAuthSubject.value.refreshToken}/refresh}`, null)
+        .pipe(map(auth => {
+          localStorage.setItem('ren-auth', JSON.stringify(auth));
+          this.currentAuthSubject.next(auth);
+          return auth;
+        }));
+    }
 
+    changePassword(userId: number, currentPassword: string, newPassword: string) {
+      this.http.put<any>(`${environment.renApi}/auth/reset}`, { userId, currentPassword, newPassword });
     }
 
     logout() {
       localStorage.removeItem('ren-auth');
-      window.location.reload();
+      window.location.reload(); // use router
     }
 }

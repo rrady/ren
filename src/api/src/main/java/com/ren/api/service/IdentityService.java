@@ -1,8 +1,9 @@
 package com.ren.api.service;
 
+import org.springframework.stereotype.Service;
+
 import com.ren.api.exceptions.RenException;
 import com.ren.api.model.JsonWebToken;
-import org.springframework.stereotype.Service;
 
 @Service
 public interface IdentityService {

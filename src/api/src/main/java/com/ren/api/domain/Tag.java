@@ -1,18 +1,15 @@
 package com.ren.api.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by aneagu on 03/01/2020.
- */
+import javax.persistence.*;
+
+import lombok.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @Entity
 @Table
 public class Tag {
@@ -20,9 +17,6 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
-    private String name;
 
     @Column(nullable = false)
     private String text;
