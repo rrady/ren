@@ -5,6 +5,11 @@ import { FeedComponent } from './modules/core/feed/feed.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/feed',
+    pathMatch: 'full'
+  },
+  {
     path: 'feed',
     component: FeedComponent
   }/*,
@@ -15,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -24,7 +24,7 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> postAnswer(@PathVariable(value = "questionId") Long questionId,
         @RequestBody @NotNull @Valid AnswerDto answerDto) {
 
@@ -36,7 +36,7 @@ public class AnswerController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<AnswerDto>> getAnswersForQuestion(@PathVariable(value = "questionId") Long questionId) {
         List<AnswerDto> resultList = answerService.findAllByQuestionId(questionId);
         return ResponseEntity.ok(resultList);

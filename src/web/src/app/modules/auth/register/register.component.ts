@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '@app/services/auth/auth.service';
-import { first } from 'rxjs/operators';
-import { Router } from '@angular/router';
+
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +19,7 @@ export class RegisterComponent implements OnInit {
     confirmPassword: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -33,11 +32,8 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.registerForm.controls.password.value === this.registerForm.controls.confirmPassword.value) {
-      this.authService.register(this.registerForm.controls.username.value, this.registerForm.controls.email.value, this.registerForm.controls.password.value)
-        .pipe(first())
-        .subscribe(data => {
-          this.router.navigate(['/feed']);
-        });
+      this.authService.register(this.registerForm.controls.username.value,
+        this.registerForm.controls.email.value, this.registerForm.controls.password.value);
     } else {
       console.log("passwords don't match");
     }

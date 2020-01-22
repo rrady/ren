@@ -40,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Page<QuestionDto> getQuestions(String searchKey, Pageable pageable) {
-        return searchKey != null ? questionRepository.findAllByTitle(searchKey, pageable).map(objectMapper::convertQuestionToQuestionDto) :
+        return (searchKey != null && !searchKey.isEmpty()) ? questionRepository.findAllByTitle(searchKey, pageable).map(objectMapper::convertQuestionToQuestionDto) :
                 questionRepository.findAll(pageable).map(objectMapper::convertQuestionToQuestionDto);
     }
 

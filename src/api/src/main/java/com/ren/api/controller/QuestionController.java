@@ -30,7 +30,7 @@ public class QuestionController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<QuestionDto>> getQuestions(@RequestParam(name = "page", defaultValue = "0") int page,
                                                           @RequestParam(name = "size", defaultValue = "10") int size,
                                                           @RequestParam(name = "sort", defaultValue = "DESC") String sort,

@@ -1,2 +1,72 @@
-<app-paginated-grid [pageSize]="pgSize" [items]="questions" (prev)="getPage(currentPage - 1)" (next)="getPage(currentPage + 1)">
-</app-paginated-grid>
+<div class="box is-shadowless">
+  <div class="columns is-multiline">
+    <div *ngFor="let item of questionsPage.content" class="column is-full box">
+      <div class="tile is-ancestor">
+        <div class="tile is-parent is-vertical">
+          <div class="tile is-child box is-shadowless">
+            <span class="is-size-7">{{ item.viewCount }}</span>
+            <br>
+            <span class="is-size-7">views</span>
+          </div>
+          <div class="tile is-child box is-shadowless">
+            <span class="is-size-7">{{ item.answers.length }}</span>
+            <br>
+            <span class="is-size-7">answers</span>
+          </div>
+        </div>
+        <div class="tile is-parent is-vertical is-11">
+          <div class="tile is-child">
+            <span class="is-size-2">{{ item.title }}</span>
+            <br>
+            <span class="is-size-5">{{ item.text.slice(0, 110) }}</span>
+            <br>
+            <br>
+            <br>
+            <div *ngFor="let tag of item.tags" class="tags">
+              <span class="tag is-info">tag.text</span>
+            </div>
+            <div class="is-pulled-right">
+              {{ item.createdOn }} {{ item.userName }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <button class="pagination-previous" (click)="queryPage(questionsPage.pageable.pageNumber - 1)" [disabled]="questionsPage.first">Previous</button>
+    <button class="pagination-next" (click)="queryPage(questionsPage.pageable.pageNumber + 1)" [disabled]="questionsPage.last">Next</button>
+
+    <ul *ngIf="!(questionsPage.totalPages > 5); else elseBlock" class="pagination-list">
+      <li *ngFor="let pageIndex of [].constructor(questionsPage.totalPages); let i = index;">
+        <a class="pagination-link" [ngClass]="{ 'is-current': questionsPage.pageable.pageNumber === i }" (click)="queryPage(i)">{{ i + 1 }}</a>
+      </li>
+    </ul>
+    <ng-template #elseBlock>
+      <ul class="pagination-list">
+        <li [ngClass]="{ 'is-invisible': questionsPage.pageable.pageNumber < 2 }">
+          <a class="pagination-link" (click)="queryPage(0)">1</a>
+        </li>
+        <li [ngClass]="{ 'is-invisible': questionsPage.pageable.pageNumber < 2 }">
+          <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li [ngClass]="{ 'is-invisible': questionsPage.pageable.pageNumber === 0 }">
+          <a class="pagination-link" (click)="queryPage(questionsPage.pageable.pageNumber - 1)">{{ questionsPage.pageable.pageNumber }}</a>
+        </li>
+        <li>
+          <a class="pagination-link is-current" aria-current="page">{{ questionsPage.pageable.pageNumber + 1 }}</a>
+        </li>
+        <li [ngClass]="{ 'is-invisible': questionsPage.pageable.pageNumber > questionsPage.totalPages - 2 }">
+          <a class="pagination-link" (click)="queryPage(questionsPage.pageable.pageNumber + 1)">{{ questionsPage.pageable.pageNumber + 2 }}</a>
+        </li>
+        <li [ngClass]="{ 'is-invisible': questionsPage.pageable.pageNumber > questionsPage.totalPages - 2 }">
+          <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li [ngClass]="{ 'is-invisible': questionsPage.pageable.pageNumber > questionsPage.totalPages - 2 }">
+          <a class="pagination-link" (click)="queryPage(questionsPage.totalPages - 1)">{{ questionsPage.totalPages }}</a>
+        </li>
+      </ul>
+    </ng-template>
+  </nav>
+</div>

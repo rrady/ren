@@ -24,13 +24,13 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<String> postAnswer(@RequestBody @NotNull @Valid CommentDto commentDto) {
         commentService.save(commentDto);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<CommentDto>> getAnswersForQuestion(@PathVariable(value = "answerId") Long answerId) {
         List<CommentDto> resultList = commentService.findAllByAnswerId(answerId);
         return ResponseEntity.ok(resultList);

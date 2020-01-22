@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Question } from '@app/models/question.model';
-import { QuestionService } from '@app/services/question/question.service';
-import { map } from 'rxjs/operators';
+
+import { QuestionService } from '@app/services/question.service';
+import { Page, Question } from '@app/models';
 
 @Component({
   selector: 'app-feed',
@@ -10,21 +10,20 @@ import { map } from 'rxjs/operators';
 })
 export class FeedComponent implements OnInit {
 
-  questions: Question[];
-  currentPage: number;
+  questionsPage: Page<Question>;
 
   public pgSize: number = 10;
 
   constructor(public questionService: QuestionService) { }
 
   ngOnInit() {
-    this.getPage(0);
+    this.queryPage(0);
   }
 
-
-
-  getPage(index: number): void {
-    var response = this.questionService.query(index, this.pgSize).pipe(map(data => data.body));
-    console.log(response);
+  queryPage(index: number): void {
+    this.questionService.query(index, this.pgSize)
+      .subscribe(data => {
+        this.questionsPage = data;
+      });
   }
 }

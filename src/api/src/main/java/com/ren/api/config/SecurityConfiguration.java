@@ -1,6 +1,7 @@
 package com.ren.api.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,8 +36,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/question").permitAll()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             .and()
                 .apply(jwtConfigurerAdapter());

@@ -12,11 +12,9 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private currentAuthSubject: BehaviorSubject<JsonWebToken>;
-    public currentAuth: Observable<JsonWebToken>;
 
     constructor(private http: HttpClient, private router: Router) {
       this.currentAuthSubject = new BehaviorSubject<JsonWebToken>(JSON.parse(localStorage.getItem('ren-auth')));
-      this.currentAuth = this.currentAuthSubject.asObservable();
     }
 
     public get currentAuthValue(): JsonWebToken {
@@ -35,33 +33,45 @@ export class AuthService {
     }
 
     register(username: string, email: string, password: string) {
-      return this.http.post<any>(`${environment.renApi}/auth/sign-up`, { username, email, password });
+      this.http.post<any>(`${environment.renApi}/auth/sign-up`, { username, email, password })
+        .subscribe(data => {
+          this.router.navigate(['/feed']);
+        });
     }
 
     login(email: string, password: string) {
-      return this.http.post<any>(`${environment.renApi}/auth/sign-in`, { email, password })
+      this.http.post<any>(`${environment.renApi}/auth/sign-in`, { email, password })
         .pipe(map(auth => {
           localStorage.setItem('ren-auth', JSON.stringify(auth));
           this.currentAuthSubject.next(auth);
           return auth;
-        }));
+        }))
+        .subscribe(data => {
+          this.router.navigate(['/feed']);
+        });
     }
 
     refresh() {
-      return this.http.post<any>(`${environment.renApi}/auth/${this.currentAuthSubject.value.refreshToken}/refresh}`, null)
+      this.http.post<any>(`${environment.renApi}/auth/${this.currentAuthSubject.value.refreshToken}/refresh}`, null)
         .pipe(map(auth => {
           localStorage.setItem('ren-auth', JSON.stringify(auth));
           this.currentAuthSubject.next(auth);
           return auth;
-        }));
+        }))
+        .subscribe(data => {
+          this.router.navigate(['/feed']);
+        });
     }
 
     changePassword(userId: number, currentPassword: string, newPassword: string) {
-      this.http.put<any>(`${environment.renApi}/auth/reset}`, { userId, currentPassword, newPassword });
+      this.http.put<any>(`${environment.renApi}/auth/reset}`, { userId, currentPassword, newPassword })
+        .subscribe(data => {
+          this.router.navigate(['/feed']);
+        });
     }
 
     logout() {
       localStorage.removeItem('ren-auth');
-      window.location.reload(); // use router
+      this.router.navigate(['/feed']);
     }
 }

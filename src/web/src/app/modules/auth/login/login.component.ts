@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '@app/services/auth/auth.service';
-import { first } from 'rxjs/operators';
-import { Router } from '@angular/router';
+
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -30,10 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
-      .pipe(first())
-      .subscribe(data => {
-        this.router.navigate(['/feed']);
-      });
+    this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
   }
 }

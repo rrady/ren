@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AuthInterceptor } from '@app/modules/shared/interceptors/auth.interceptor';
 
 import { ModalComponent } from '@app/modules/shared/modal/modal.component';
 import { SearchBoxComponent } from '@app/modules/shared/search-box/search-box.component';
-import { PaginatedGridComponent } from '@app/modules/shared/paginated-grid/paginated-grid.component';
 
 @NgModule({
   imports: [
@@ -20,8 +21,7 @@ import { PaginatedGridComponent } from '@app/modules/shared/paginated-grid/pagin
   ],
   declarations: [
     SearchBoxComponent,
-    ModalComponent,
-    PaginatedGridComponent
+    ModalComponent
   ],
   exports: [
     CommonModule,
@@ -31,8 +31,14 @@ import { PaginatedGridComponent } from '@app/modules/shared/paginated-grid/pagin
     FormsModule,
     ReactiveFormsModule,
     SearchBoxComponent,
-    ModalComponent,
-    PaginatedGridComponent
+    ModalComponent
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
   ]
 })
 export class SharedModule { }

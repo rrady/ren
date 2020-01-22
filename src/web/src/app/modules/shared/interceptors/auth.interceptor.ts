@@ -4,7 +4,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { environment } from '@environments/environment';
-import { AuthService } from '@app/services/auth/auth.service';
+import { AuthService } from '@app/services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -29,6 +29,10 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private getToken(): string {
-    return this.authService.currentAuthValue.accessToken;
+    if (this.authService.currentAuthValue) {
+      return this.authService.currentAuthValue.accessToken;
+    }
+
+    return null;
   };
 }
