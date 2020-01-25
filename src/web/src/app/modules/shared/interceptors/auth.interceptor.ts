@@ -28,11 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 
-  private getToken(): string {
-    if (this.authService.currentAuthValue) {
-      return this.authService.currentAuthValue.accessToken;
-    }
-
-    return null;
+  private getToken(): string | null {
+    return this.authService.currentIdentity ? this.authService.currentIdentity.accessToken : null;
   };
 }

@@ -1,34 +1,38 @@
 <nav class="navbar has-shadow">
-  <a class="navbar-item" style="margin-left:2rem;">
+  <a class="navbar-item" style="margin-left:2rem;" [routerLink]="['/feed']">
     <img src="https://cdn.discordapp.com/attachments/232822734713913346/637688181856141342/renlogo.png">
   </a>
   <div class="is-divider-vertical"></div>
   <a class="navbar-item">
-    <button class="button is-link" [disabled]="!authService.isAuthenticated">
+    <button class="button is-link" [disabled]="!authService.isAuthenticated" [routerLink]="['/ask']">
       Ask
     </button>
   </a>
   <div class="navbar-item navbar-center">
     <app-search-box></app-search-box>
   </div>
-  <div class="navbar-item">
+  <div class="navbar-item buttons">
     <div *ngIf="authService.isAuthenticated; else elseBlock">
-      {{authService.username}}
-      <button class="button is-link" (click)="authService.logout()">
+      <div class="button is-capitalized is-borderless">
+        {{authService.username}}
+      </div>
+      <button class="button is-link" (click)="toggleChangePasswordModal(true)">
+        Change Password
+      </button>
+      <button class="button is-link" (click)="logout()">
         Logout
       </button>
     </div>
     <ng-template #elseBlock>
-      <div class="buttons">
-        <button class="button is-link" (click)="toggleLoginModal(true)">
-          Login
-        </button>
-        <button class="button is-link" (click)="toggleRegisterModal(true)">
-          Register
-        </button>
-      </div>
+      <button class="button is-link" (click)="toggleLoginModal(true)">
+        Login
+      </button>
+      <button class="button is-link" (click)="toggleRegisterModal(true)">
+        Register
+      </button>
     </ng-template>
     <app-login [visible]="showLoginModal" (onToggle)="toggleLoginModal($event)"></app-login>
     <app-register [visible]="showRegisterModal" (onToggle)="toggleRegisterModal($event)"></app-register>
+    <app-change-password [visible]="showChangePasswordModal" (onToggle)="toggleRegisterModal($event)"></app-change-password>
   </div>
 </nav>

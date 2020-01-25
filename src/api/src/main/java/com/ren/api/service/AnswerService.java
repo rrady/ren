@@ -11,5 +11,4 @@ public interface AnswerService {
     void update(Long id, AnswerDto answerDto) throws RenException;
 
     List<AnswerDto> findAllByQuestionId(Long questionId);
-
 }

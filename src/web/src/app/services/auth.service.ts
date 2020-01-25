@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -7,71 +9,58 @@ import * as jwt_decode from 'jwt-decode';
 
 import { JsonWebToken } from '@app/models/jsonWebToken.model';
 import { environment } from '@environments/environment';
-import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private currentAuthSubject: BehaviorSubject<JsonWebToken>;
+    constructor(private http: HttpClient, private router: Router) { }
 
-    constructor(private http: HttpClient, private router: Router) {
-      this.currentAuthSubject = new BehaviorSubject<JsonWebToken>(JSON.parse(localStorage.getItem('ren-auth')));
+    public get currentIdentity(): JsonWebToken | null {
+      return JSON.parse(localStorage.getItem('ren-auth'))
     }
 
-    public get currentAuthValue(): JsonWebToken {
-      return this.currentAuthSubject.value;
-    }
-
-    get isAuthenticated(): boolean {
-      if (this.currentAuthSubject.value)
+    public get isAuthenticated(): boolean {
+      if (this.currentIdentity !== null)
         return true;
 
       return false;
     }
 
-    get username() {
-      return jwt_decode(this.currentAuthSubject.value.accessToken)["username"];
+    get userid(): number {
+      return jwt_decode(this.currentIdentity.accessToken)["sub"];
     }
 
-    register(username: string, email: string, password: string) {
-      this.http.post<any>(`${environment.renApi}/auth/sign-up`, { username, email, password })
-        .subscribe(data => {
-          this.router.navigate(['/feed']);
-        });
+    get username(): string {
+      return jwt_decode(this.currentIdentity.accessToken)["username"];
     }
 
-    login(email: string, password: string) {
-      this.http.post<any>(`${environment.renApi}/auth/sign-in`, { email, password })
+    register(username: string, email: string, password: string): Observable<any> {
+      return this.http.post<any>(`${environment.renApi}/auth/sign-up`, { username, email, password });
+    }
+
+    login(email: string, password: string): Observable<any> {
+      return this.http.post<any>(`${environment.renApi}/auth/sign-in`, { email, password })
         .pipe(map(auth => {
           localStorage.setItem('ren-auth', JSON.stringify(auth));
-          this.currentAuthSubject.next(auth);
           return auth;
-        }))
-        .subscribe(data => {
-          this.router.navigate(['/feed']);
-        });
+        }));
     }
 
-    refresh() {
-      this.http.post<any>(`${environment.renApi}/auth/${this.currentAuthSubject.value.refreshToken}/refresh}`, null)
+    refresh(): Observable<any> {
+      return this.http.post<any>(`${environment.renApi}/auth/${this.currentIdentity.refreshToken}/refresh}`, null)
         .pipe(map(auth => {
           localStorage.setItem('ren-auth', JSON.stringify(auth));
-          this.currentAuthSubject.next(auth);
           return auth;
-        }))
-        .subscribe(data => {
-          this.router.navigate(['/feed']);
-        });
+        }));
     }
 
-    changePassword(userId: number, currentPassword: string, newPassword: string) {
-      this.http.put<any>(`${environment.renApi}/auth/reset}`, { userId, currentPassword, newPassword })
-        .subscribe(data => {
-          this.router.navigate(['/feed']);
-        });
+    changePassword(userId: number, currentPassword: string, newPassword: string): Observable<any> {
+      return this.http.put<any>(`${environment.renApi}/auth/reset}`, { userId, currentPassword, newPassword });
     }
 
-    logout() {
-      localStorage.removeItem('ren-auth');
-      this.router.navigate(['/feed']);
+    logout(): Observable<any> {
+      return new Observable(observer => {
+        localStorage.removeItem('ren-auth');
+        observer.complete();
+      });
     }
 }

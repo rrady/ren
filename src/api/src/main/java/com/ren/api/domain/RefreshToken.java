@@ -25,7 +25,8 @@ public class RefreshToken {
     @Column(nullable = false)
     private String token;
 
-    @Temporal(value = TemporalType.DATE)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(columnDefinition="DATETIME")
     private Date createdAt;
 
     public RefreshToken(User user, String token) {

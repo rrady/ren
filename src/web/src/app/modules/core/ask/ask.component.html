@@ -1,0 +1,45 @@
+<div class="box is-shadowless">
+  <div *ngIf="errorMessage && errorMessage.length > 0" class="message is-danger">
+    <div class="message-body">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <form class="form" role="form" [formGroup]="askForm">
+    <div class="field">
+        <label class="label" for="title">Title</label>
+        <div class="control">
+          <input type="text" class="input" name="title" id="title" formControlName="title">
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="password">Body</label>
+        <div class="control">
+          <textarea class="textarea" rows="10" formControlName="body"></textarea>
+        </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Tags</label>
+      <div class="control">
+        <div class="tags">
+          <span class="tag" [ngClass]="{ 'is-link': selectedTags && selectedTags.includes(tag), 'is-info': !(selectedTags && selectedTags.includes(tag)) }" *ngFor="let tag of availableTags">
+            <div (click)="selectTag(tag)">
+              {{ tag.text }}
+            </div>
+            <button class="delete is-small" *ngIf="selectedTags && selectedTags.includes(tag)" (click)="unselectTag(tag)"></button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons is-right">
+      <div class="control">
+        <button class="button is-link" (click)="post()">Submit</button>
+      </div>
+      <div class="control">
+        <button class="button is-link is-light" [routerLink]="['/feed']">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

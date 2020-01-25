@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 
+import { matchPasswords } from '@app/modules/shared/validators/match-passwords.validator';
 import { AuthService } from '@app/services/auth.service';
 
 @Component({
@@ -11,26 +12,60 @@ import { AuthService } from '@app/services/auth.service';
 export class ChangePasswordComponent implements OnInit {
   @Input() visible: boolean = false;
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
+  errorMessage: string;
 
+  private newPasswordControl = new FormControl('', Validators.required);
+  private confirmNewPasswordControl = new FormControl('', [Validators.required, matchPasswords(this.newPasswordControl)]);
   changePasswordForm: FormGroup = this.formBuilder.group({
     currentPassword: ['', Validators.required],
-    newPassword: ['', Validators.required],
-    confirmNewPassword: ['', Validators.required]
+    newPassword: this.newPasswordControl,
+    confirmNewPassword: this.confirmNewPasswordControl
   });
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.errorMessage = null;
   }
 
-  onToggleModal(visible) {
+  get currentPassword(): AbstractControl {
+    return this.changePasswordForm.get('currentPassword');
+  }
+
+  get newPassword(): AbstractControl {
+    return this.changePasswordForm.get('newPassword');
+  }
+
+  get confirmNewPassword(): AbstractControl {
+    return this.changePasswordForm.get('confirmNewPassword');
+  }
+
+  onToggleModal(visible: boolean): void {
     this.visible = visible;
     this.onToggle.emit(false);
   }
 
-  changePassword() {
-    this.authService.changePassword(this.changePasswordForm.controls.currentPassword.value,
-      this.changePasswordForm.controls.newPassword.value, this.changePasswordForm.controls.confirmNewPassword.value);
+  changePassword(): void {
+    if ((this.currentPassword.errors && this.currentPassword.errors.required) || (this.newPassword.errors && this.newPassword.errors.required) ||
+      (this.confirmNewPassword.errors && this.confirmNewPassword.errors.required)) {
+      this.errorMessage = "Please fill in all required fields.";
+      return;
+    } else if (this.confirmNewPassword.errors && this.confirmNewPassword.errors.passwordsDontMatch) {
+      this.errorMessage = "New passwords don't match.";
+      this.newPassword.setValue('');
+      this.confirmNewPassword.setValue('');
+      return;
+    } else {
+      this.authService.changePassword(this.currentPassword.value, this.newPassword.value, this.confirmNewPassword.value)
+        .subscribe(
+          (data) => {
+            this.errorMessage = null;
+            this.onToggleModal(false);
+          },
+          (error) => {
+            this.errorMessage = error.error.message;
+          });
+    }
   }
 }

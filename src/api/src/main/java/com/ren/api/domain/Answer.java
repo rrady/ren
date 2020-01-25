@@ -24,12 +24,12 @@ public class Answer {
 
     private Integer rating;
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(nullable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(columnDefinition="DATETIME", nullable = false)
     private Date createdOn;
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(nullable = true)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(columnDefinition="DATETIME", nullable = true)
     private Date editedOn;
 
     @ManyToOne

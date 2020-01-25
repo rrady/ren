@@ -1,14 +1,16 @@
 package com.ren.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import java.util.Date;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -8,6 +8,11 @@
       <button class="delete" aria-label="close" (click)="toggle()"></button>
     </header>
     <section class="modal-card-body">
+      <div *ngIf="error && error.length > 0" class="message is-danger">
+        <div class="message-body">
+          {{ error }}
+        </div>
+      </div>
       <ng-content></ng-content>
     </section>
     <footer class="modal-card-foot buttons is-right">

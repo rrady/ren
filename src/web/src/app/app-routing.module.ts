@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FeedComponent } from './modules/core/feed/feed.component';
+import { AuthGuard } from '@app/modules/shared/guard/auth.guard';
+
+import { FeedComponent } from '@app/modules/core/feed/feed.component';
+import { AskComponent } from '@app/modules/core/ask/ask.component';
 
 const routes: Routes = [
   {
@@ -12,6 +15,11 @@ const routes: Routes = [
   {
     path: 'feed',
     component: FeedComponent
+  },
+  {
+    path: 'ask',
+    component: AskComponent,
+    canActivate: [AuthGuard]
   }/*,
   {
     path: 'question/:id',
@@ -20,7 +28,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes, {
+    useHash: true,
+    onSameUrlNavigation: "reload",
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -21,8 +21,8 @@ public class Comment {
     @Column(nullable = false)
     private String text;
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(nullable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(columnDefinition="DATETIME", nullable = false)
     private Date createdOn;
 
     @ManyToOne

@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.*;
@@ -22,5 +23,6 @@ public class TagDto {
     @Size(min = 3, max = 30)
     public String text;
 
+    @JsonIgnore
     public Set<QuestionDto> questions;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { AuthService } from '@app/services/auth.service';
 
@@ -11,6 +11,7 @@ import { AuthService } from '@app/services/auth.service';
 export class LoginComponent implements OnInit {
   @Input() visible: boolean = false;
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
+  errorMessage: string;
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', Validators.required],
@@ -21,14 +22,37 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.errorMessage = null;
   }
 
-  onToggleModal(visible) {
+  get email(): AbstractControl {
+    return this.loginForm.get('email');
+  }
+
+  get password(): AbstractControl {
+    return this.loginForm.get('password');
+  }
+
+  onToggleModal(visible: boolean): void {
     this.visible = visible;
     this.onToggle.emit(false);
   }
 
-  login() {
-    this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
+  login(): void {
+    if ((this.email.errors && this.email.errors.required) || (this.password.errors && this.password.errors.required)) {
+      this.errorMessage = "Please fill in all required fields.";
+      return;
+    } else {
+      this.errorMessage = null;
+      this.authService.login(this.email.value, this.password.value)
+        .subscribe(
+          (data) => {
+            this.errorMessage = null;
+            this.onToggleModal(false);
+          },
+          (error) => {
+            this.errorMessage = error.error.message;
+          });
+    }
   }
 }

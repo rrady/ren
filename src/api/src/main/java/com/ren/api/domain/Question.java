@@ -28,14 +28,15 @@ public class Question {
 
     private Integer viewCount;
 
-    @Temporal(value = TemporalType.DATE)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(columnDefinition="DATETIME")
     private Date createdOn;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany()
     @JoinTable(name = "questions_tags",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))

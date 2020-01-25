@@ -1,4 +1,10 @@
-<div class="box is-shadowless">
+<div *ngIf="questionsPage.totalElements == 0" class="box is-shadowless has-text-centered">
+  <div class="title is-2 is-centered has-text-grey is-italic">
+    No data to display.
+  </div>
+</div>
+
+<div *ngIf="questionsPage.totalElements > 0" class="box is-shadowless">
   <div class="columns is-multiline">
     <div *ngFor="let item of questionsPage.content" class="column is-full box">
       <div class="tile is-ancestor">
@@ -21,12 +27,11 @@
             <span class="is-size-5">{{ item.text.slice(0, 110) }}</span>
             <br>
             <br>
-            <br>
-            <div *ngFor="let tag of item.tags" class="tags">
-              <span class="tag is-info">tag.text</span>
+            <div class="tags">
+              <span class="tag is-info" *ngFor="let tag of item.tags">{{ tag.text }}</span>
             </div>
             <div class="is-pulled-right">
-              {{ item.createdOn }} {{ item.userName }}
+              asked by {{ item.userName }} on {{ item.createdOn }}
             </div>
           </div>
         </div>

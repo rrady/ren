@@ -5,3 +5,8 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.is-borderless {
+  border-style: none;
+  cursor: default;
+}

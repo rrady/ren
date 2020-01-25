@@ -1,7 +1,7 @@
 <div class="field">
   <div class="field-body">
     <p class="control has-icons-left">
-      <input class="input" style="width: 600px;" type="search" placeholder="Search your problem">
+      <input class="input" style="width: 600px;" type="search" placeholder="Search your problem" (keydown.enter)="search($event)">
       <span class="icon is-small is-left">
         <i class="fa fa-search"></i>
       </span>

@@ -1,4 +1,4 @@
-<app-modal [title]="'Register'" [visible]="visible" (onSave)="register()" (onToggle)="onToggleModal($event)">
+<app-modal [title]="'Register'" [visible]="visible" [error]="errorMessage" (onSave)="register()" (onToggle)="onToggleModal($event)">
   <form class="form" role="form" [formGroup]="registerForm">
     <div class="field">
       <label class="label" for="username">Username</label>
