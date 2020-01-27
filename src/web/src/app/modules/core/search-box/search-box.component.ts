@@ -14,6 +14,10 @@ export class SearchBoxComponent implements OnInit {
 
   search(event: KeyboardEvent): void {
     var searchTerm: string = (event.target as HTMLInputElement).value;
-    this.router.navigate(['/feed'], { queryParams: { term: searchTerm } });
+    if (searchTerm && searchTerm.length > 0) {
+      this.router.navigate(['/feed'], { queryParams: { term: searchTerm } });
+    } else {
+      this.router.navigate(['/feed']);
+    }
   }
 }

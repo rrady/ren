@@ -41,8 +41,20 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> updateQuestion(@PathVariable("id") Long id, @RequestBody @NotNull @Valid QuestionDto questionDto) throws RenException {
+    public ResponseEntity<?> updateQuestion(@PathVariable("id") Long id, @RequestBody @NotNull @Valid QuestionDto questionDto) throws RenException {
         questionService.update(id, questionDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<QuestionDto> getQuestionById(@PathVariable("id") Long id) throws RenException {
+        QuestionDto questionDto = questionService.getQuestionById(id);
+        return ResponseEntity.ok(questionDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteQuestion(@PathVariable("id") Long id) throws RenException {
+        questionService.deleteQuestion(id);
         return ResponseEntity.noContent().build();
     }
 }

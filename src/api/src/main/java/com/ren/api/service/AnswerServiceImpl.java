@@ -1,6 +1,7 @@
 package com.ren.api.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,8 @@ public class AnswerServiceImpl implements AnswerService {
         Optional<Answer> optional = answerRepository.findById(id);
         if (optional.isPresent()) {
             Answer answer = objectMapper.convertAnswerDtoToAnswer(answerDto);
+            answer.setId(id);
+            answer.setEditedOn(new Date());
             answerRepository.save(answer);
         } else {
             throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Answer with id: '%s' was not found.", id));
@@ -50,5 +53,15 @@ public class AnswerServiceImpl implements AnswerService {
             .forEach(answer -> resultList.add(objectMapper.convertAnswerToAnswerDto(answer)));
             
         return resultList;
+    }
+
+    @Override
+    public void delete(Long id) throws RenException {
+        Optional<Answer> optional = answerRepository.findById(id);
+        if (optional.isPresent()) {
+            answerRepository.deleteById(id);
+        } else {
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Answer with id: '%s' was not found.", id));
+        }
     }
 }

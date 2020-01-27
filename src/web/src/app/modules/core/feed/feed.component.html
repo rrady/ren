@@ -22,7 +22,7 @@
         </div>
         <div class="tile is-parent is-vertical is-11">
           <div class="tile is-child">
-            <span class="is-size-2">{{ item.title }}</span>
+            <a class="is-size-2" [routerLink]="['/question', item.id]">{{ item.title }}</a>
             <br>
             <span class="is-size-5">{{ item.text.slice(0, 110) }}</span>
             <br>

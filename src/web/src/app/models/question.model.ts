@@ -10,21 +10,31 @@ interface IQuestion {
   userId: number,
   userName: string,
   tags: Tag[],
-  answears: Answer[]
+  answers: Answer[]
 }
 
 export class Question implements IQuestion {
-  constructor(public id: number, public text: string, public title: string, public viewCount: number,
-    public createdOn: Date, public userId: number, public userName: string, public tags: Tag[], public answears: Answer[]) {
+  public id: number;
+  public text: string;
+  public title: string;
+  public viewCount: number;
+  public createdOn: Date;
+  public userId: number;
+  public userName: string;
+  public tags: Tag[];
+  public answers: Answer[];
 
-      this.id = id;
-      this.text = text;
-      this.title = title;
-      this.viewCount = viewCount;
-      this.createdOn = createdOn;
-      this.userId = userId;
-      this.userName = userName;
-      this.tags = tags;
-      this.answears = answears;
+  constructor();
+  constructor(id: number, text: string, title: string, viewCount: number, createdOn: Date, userId: number, userName: string, tags: Tag[], answers: Answer[])
+  constructor(id?: number, text?: string, title?: string, viewCount?: number, createdOn?: Date, userId?: number, userName?: string, tags?: Tag[], answers?: Answer[]) {
+      this.id = id || 0;
+      this.text = text || "";
+      this.title = title || "";
+      this.viewCount = viewCount || 0;
+      this.createdOn = createdOn || null;
+      this.userId = userId || 0;
+      this.userName = userName || "";
+      this.tags = tags || [];
+      this.answers = answers || [];
   }
 }

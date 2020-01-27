@@ -1,0 +1,52 @@
+<div class="columns">
+  <div class="column is-three-fifths is-offset-one-fifth is-size-5">
+    <form class="form" role="form" [formGroup]="answerForm">
+      <div class="tile is-ancestor">
+        <div class="tile is-1 is-vertical is-parent">
+          <div class="tile is-child box is-shadowless has-text-centered">
+            <a class="fa fa-arrow-up" (click)="rate(true)"></a>
+            {{ answer.rating }}
+            <a class="fa fa-arrow-down" (click)="rate(false)"></a>
+          </div>
+        </div>
+          <div class="tile is-parent">
+            <div class="tile is-child box is-shadowless has-text-justified">
+              <textarea class="textarea has-text-justified" [ngClass]="{ 'is-borderless has-fixed-size': !editMode }"
+                [readonly]="!editMode" formControlName="body">
+                {{ answer.text }}
+              </textarea>
+              <div class="buttons is-right is-size-7">
+                <div *ngIf="answer.editedOn; else elseBlock">Edited by {{ answer.userName }} on {{ answer.editedOn }}</div>
+                <ng-template #elseBlock>Answered by {{ answer.userName }} on {{ answer.createdOn }}</ng-template>
+                <button class="button is-small" [ngClass]="{ 'is-hidden': !canPerformAction || editMode }" (click)="edit()">Edit</button>
+                <button class="button is-small is-danger" [ngClass]="{ 'is-hidden': !canPerformAction }" (click)="delete()">Delete</button>
+                <button class="button is-small" [ngClass]="{ 'is-hidden': !editMode }" (click)="cancel()">Cancel</button>
+                <button class="button is-small" [ngClass]="{ 'is-hidden': !editMode }" (click)="save()">Save</button>
+                <button class="button is-small" [ngClass]="{ 'is-hidden': !authService.isAuthenticated }" (click)="addComment()">Add a comment</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="answer.comments && answer.comments.length > 0" class="column is-4 is-offset-8 is-divider"></div>
+    <div *ngFor="let comment of comments">
+      <app-comment [questionId]="questionId" [answerId]="answer.id" [comment]="comment"></app-comment>
+      <div *ngIf="answer.comments.indexOf(comment) !== answer.comments.length - 1" class="column is-4 is-offset-8 is-divider"></div>
+    </div>
+  </div>
+</div>
+<div *ngIf="commentMode" class="columns">
+  <div class="column is-three-fifths is-offset-one-fifth is-size-5">
+    <form class="form" role="form" [formGroup]="postCommentForm">
+      <div class="field">
+        <label class="label" for="body">Your comment</label>
+        <div class="control">
+          <textarea class="textarea" rows="10" formControlName="comment"></textarea>
+        </div>
+      </div>
+      <div class="buttons is-right">
+        <button class="button is-info" (click)="postComment()">Post your comment</button>
+      </div>
+    </form>
+  </div>
+</div>

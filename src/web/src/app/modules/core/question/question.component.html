@@ -1,0 +1,48 @@
+<div class="box is-shadowless" *ngIf="question">
+  <div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth is-size-3 has-text-justified">
+      {{ question.title }}
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth is-size-7 has-text-justified">
+      Asked by {{ question.userName }} on {{ question.createdOn }} viewed {{ question.viewCount }} times.
+    </div>
+  </div>
+  <div class="column is-three-fifths is-offset-one-fifth is-divider"></div>
+  <form class="form" role="form" [formGroup]="questionForm">
+    <div class="columns">
+      <div class="column is-three-fifths is-offset-one-fifth is-size-5">
+        <textarea class="textarea has-text-justified" [ngClass]="{ 'is-borderless has-fixed-size': !editMode }" [readonly]="!editMode" formControlName="body">{{ question.text }}</textarea>
+        <div class="buttons is-right">
+          <button class="button" [ngClass]="{ 'is-hidden': !canPerformAction || editMode }" (click)="edit()">Edit</button>
+          <button class="button is-danger" [ngClass]="{ 'is-hidden': !canPerformAction }" (click)="delete()">Delete</button>
+          <button class="button" [ngClass]="{ 'is-hidden': !editMode }" (click)="cancel()">Cancel</button>
+          <button class="button" [ngClass]="{ 'is-hidden': !editMode }" (click)="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="column is-three-fifths is-offset-one-fifth is-divider"></div>
+  <div *ngFor="let answer of answers">
+   <app-answer [questionId]="question.id" [answer]="answer"></app-answer>
+   <div class="column is-three-fifths is-offset-one-fifth is-divider"></div>
+  </div>
+  <div *ngIf="authService.isAuthenticated">
+    <div class="columns">
+      <div class="column is-three-fifths is-offset-one-fifth is-size-5">
+        <form class="form" role="form" [formGroup]="postAnswerForm">
+          <div class="field">
+            <label class="label" for="body">Your answer</label>
+            <div class="control">
+              <textarea class="textarea" rows="10" formControlName="answer"></textarea>
+            </div>
+          </div>
+          <div class="buttons is-right">
+            <button class="button is-info" (click)="postAnswer()">Post your answer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

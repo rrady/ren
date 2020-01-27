@@ -5,7 +5,6 @@ public final class Codes {
     public static final String RESOURCE_ALREADY_EXISTS = "resource_already_exists";
     public static final String RESOURCE_EXPIRED = "resource_expired";
     public static final String INVALID_INPUT = "invalid_input";
-    public static final String INVALID_RESOURCE = "invalid_resource";
 
     private Codes() {
     }

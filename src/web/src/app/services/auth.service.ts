@@ -26,11 +26,25 @@ export class AuthService {
     }
 
     get userid(): number {
-      return jwt_decode(this.currentIdentity.accessToken)["sub"];
+      return Number(jwt_decode(this.currentIdentity.accessToken)["sub"]);
     }
 
     get username(): string {
       return jwt_decode(this.currentIdentity.accessToken)["username"];
+    }
+
+    get isTokenExpired(): boolean | null {
+      if (this.isAuthenticated) {
+        let expirationTimestamp: number = jwt_decode(this.currentIdentity.accessToken)["exp"];
+        let expirationDate: Date = new Date(expirationTimestamp * 1000);
+
+        if (expirationDate < new Date(Date.now()))
+          return true;
+
+        return false;
+      }
+
+      return null;
     }
 
     register(username: string, email: string, password: string): Observable<any> {
@@ -46,7 +60,7 @@ export class AuthService {
     }
 
     refresh(): Observable<any> {
-      return this.http.post<any>(`${environment.renApi}/auth/${this.currentIdentity.refreshToken}/refresh}`, null)
+      return this.http.post<any>(`${environment.renApi}/auth/${this.currentIdentity.refreshToken}/refresh`, null)
         .pipe(map(auth => {
           localStorage.setItem('ren-auth', JSON.stringify(auth));
           return auth;

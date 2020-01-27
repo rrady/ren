@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { Router } from '@angular/router';
 
 import { Tag } from '@app/models';
-import { AuthService } from '@app/services/auth.service';
-import { QuestionService } from '@app/services/question.service';
+import { AuthService, QuestionService } from '@app/services';
 
 @Component({
   selector: 'app-ask',

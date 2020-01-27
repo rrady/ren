@@ -49,4 +49,25 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = objectMapper.convertQuestionDtoToQuestion(questionDto);
         questionRepository.save(question);
     }
+
+    @Override
+    public QuestionDto getQuestionById(Long id) throws RenException {
+        Optional<Question> optionalQuestion = questionRepository.findById(id);
+        if (optionalQuestion.isPresent()) {
+            QuestionDto questionDto = objectMapper.convertQuestionToQuestionDto(optionalQuestion.get());
+            return questionDto;
+        } else {
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Question with id: '%s' was not found.", id));
+        }
+    }
+
+    @Override
+    public void deleteQuestion(Long id) throws RenException {
+        Optional<Question> optionalQuestion = questionRepository.findById(id);
+        if (optionalQuestion.isPresent()) {
+            questionRepository.deleteById(id);
+        } else {
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Question with id: '%s' was not found.", id));
+        }
+    }
 }

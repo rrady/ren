@@ -11,4 +11,6 @@ public interface CommentService {
     void update(Long id, CommentDto commentDto) throws RenException;
 
     List<CommentDto> findAllByAnswerId(Long answerId);
+
+    void delete(Long id) throws RenException;
 }

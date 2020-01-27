@@ -2,18 +2,24 @@ interface IComment {
   id: number,
   text: string,
   createdOn: Date,
-  userId: number,
-  userName: string
+  creatorId: number,
+  creatorName: string
 }
 
 export class Comment implements IComment {
-  constructor(public id: number, public text: string, public createdOn: Date,
-    public userId: number, public userName: string) {
+  public id: number;
+  public text: string;
+  public createdOn: Date;
+  public creatorId: number;
+  public creatorName: string;
 
-    this.id = id;
-    this.text = text;
-    this.createdOn = createdOn;
-    this.userId = userId;
-    this.userName = userName;
+  constructor();
+  constructor(id: number, text: string, createdOn: Date, creatorId: number, creatorName: string);
+  constructor(id?: number, text?: string, createdOn?: Date, creatorId?: number, creatorName?: string) {
+    this.id = id || 0;
+    this.text = text || "";
+    this.createdOn = createdOn || null;
+    this.creatorId = creatorId || 0;
+    this.creatorName = creatorName || "";
   }
 }

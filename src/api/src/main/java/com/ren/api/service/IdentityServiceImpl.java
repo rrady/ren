@@ -98,6 +98,7 @@ public class IdentityServiceImpl implements IdentityService {
         User user = actualRefreshToken.getUser();
         String accessToken = accessTokenProvider.createToken(user.getId(), user.getName(), user.getEmail());
         RefreshToken newRefreshToken = refreshTokenProvider.createRefreshToken(user);
+        refreshTokenRepository.save(newRefreshToken);
         return new JsonWebToken(accessToken, newRefreshToken.getToken());
     }
 }

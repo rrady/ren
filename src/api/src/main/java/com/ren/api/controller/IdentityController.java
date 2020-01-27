@@ -39,7 +39,7 @@ public class IdentityController {
         return ResponseEntity.ok().body(jsonWebToken);
     }
 
-    @PostMapping(value = "/refresh/{refreshToken}")
+    @PostMapping(value = "/{refreshToken}/refresh")
     public ResponseEntity<JsonWebToken> refresh(@PathVariable("refreshToken") String refreshToken) throws RenException {
         JsonWebToken jsonWebToken = identityService.refresh(refreshToken);
 

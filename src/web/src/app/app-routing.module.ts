@@ -5,6 +5,7 @@ import { AuthGuard } from '@app/modules/shared/guard/auth.guard';
 
 import { FeedComponent } from '@app/modules/core/feed/feed.component';
 import { AskComponent } from '@app/modules/core/ask/ask.component';
+import { QuestionComponent } from '@app/modules/core/question/question.component';
 
 const routes: Routes = [
   {
@@ -19,12 +20,13 @@ const routes: Routes = [
   {
     path: 'ask',
     component: AskComponent,
-    canActivate: [AuthGuard]
-  }/*,
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always'
+  },
   {
     path: 'question/:id',
     component: QuestionComponent
-  }*/
+  }
 ];
 
 @NgModule({

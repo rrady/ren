@@ -34,8 +34,9 @@ public class CommentServiceImpl implements CommentService {
     public void update(Long id, CommentDto commentDto) throws RenException {
         Optional<Comment> optional = commentRepository.findById(id);
         if (optional.isPresent()) {
-            Comment answer = objectMapper.convertCommentDtoToComment(commentDto);
-            commentRepository.save(answer);
+            Comment comment = objectMapper.convertCommentDtoToComment(commentDto);
+            comment.setId(id);
+            commentRepository.save(comment);
         } else {
             throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Comment with id: '%s' was not found!", id));
         }
@@ -47,5 +48,15 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.findAllByAnswerId(answerId)
                 .forEach(comment -> resultList.add(objectMapper.convertCommentToCommentDto(comment)));
         return resultList;
+    }
+
+    @Override
+    public void delete(Long id) throws RenException {
+        Optional<Comment> optional = commentRepository.findById(id);
+        if (optional.isPresent()) {
+            commentRepository.deleteById(id);
+        } else {
+            throw new RenException(Codes.RESOURCE_NOT_FOUND, String.format("Comment with id: '%s' was not found!", id));
+        }
     }
 }

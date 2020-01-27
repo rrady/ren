@@ -24,13 +24,16 @@ public class RefreshTokenProviderImpl implements RefreshTokenProvider {
     @Override
     public boolean validateRefreshToken(RefreshToken refreshToken) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, refreshTokenExpiryDays);
-        Date shouldExpireDate = calendar.getTime();
+        calendar.setTime(refreshToken.getCreatedAt());
+        calendar.add(Calendar.DAY_OF_MONTH, refreshTokenExpiryDays);
 
-        if(refreshToken.getCreatedAt().before(shouldExpireDate)) {
-            return false;
+        Date shouldExpireDate = calendar.getTime();
+        Date currentDate = new Date(System.currentTimeMillis());
+
+        if(currentDate.before(shouldExpireDate)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

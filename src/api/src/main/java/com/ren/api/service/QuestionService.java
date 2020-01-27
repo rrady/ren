@@ -12,4 +12,8 @@ public interface QuestionService {
     void update(Long id, QuestionDto questionDto) throws RenException;
 
     Page<QuestionDto> getQuestions(String searchKey, Pageable pageable);
+
+    QuestionDto getQuestionById(Long id) throws RenException;
+
+    void deleteQuestion(Long id) throws RenException;
 }

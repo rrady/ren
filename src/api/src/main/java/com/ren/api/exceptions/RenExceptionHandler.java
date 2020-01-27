@@ -20,7 +20,7 @@ public class RenExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		RenResource exceptionResource = new RenResource(Codes.INVALID_RESOURCE, ex.getMessage());
+		RenResource exceptionResource = new RenResource(Codes.INVALID_INPUT, "Invalid input data.");
 		return new ResponseEntity<>(exceptionResource, status);
 	}
 }

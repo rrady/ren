@@ -29,7 +29,7 @@ public class CommentDto {
 
     public Long answerId;
 
-    public Long userId;
+    public Long creatorId;
 
-    public String userName;
+    public String creatorName;
 }

@@ -8,5 +8,7 @@
 
 .is-borderless {
   border-style: none;
+  border-color: transparent;
   cursor: default;
+  outline: none;
 }
