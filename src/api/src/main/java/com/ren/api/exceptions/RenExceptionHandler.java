@@ -12,15 +12,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class RenExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(RenException.class)
-	public final ResponseEntity<RenResource> handleException(RenException ex) {
-		RenResource exceptionResponse = new RenResource(ex.getCode(), ex.getMessage());
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-	}
+    @ExceptionHandler(RenException.class)
+    public final ResponseEntity<RenResource> handleException(RenException ex) {
+        RenResource exceptionResponse = new RenResource(ex.getCode(), ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 
-	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		RenResource exceptionResource = new RenResource(Codes.INVALID_INPUT, "Invalid input data.");
-		return new ResponseEntity<>(exceptionResource, status);
-	}
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String message = filterProvidedExceptionMessage(ex.getMessage());
+        RenResource exceptionResource = new RenResource(Codes.INVALID_INPUT, message);
+        return new ResponseEntity<>(exceptionResource, status);
+    }
+
+    private String filterProvidedExceptionMessage(String initialMessage) {
+        int startPosition = initialMessage.lastIndexOf('[') + 1;
+        int endPosition = initialMessage.lastIndexOf(']') - 1;
+
+        return "Invalid input data: " + initialMessage.substring(startPosition, endPosition);
+    }
 }
