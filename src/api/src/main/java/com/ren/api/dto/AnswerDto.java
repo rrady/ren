@@ -21,14 +21,14 @@ public class AnswerDto {
 
     public Long id;
 
-    @Size(min = 10, max = 3000)
-    @NotNull
+    @Size(min = 10, max = 3000, message = "Text must be between 10 and 3000.")
+    @NotNull(message = "Text must not be empty.")
     public String text;
 
-    @NotNull
+    @NotNull(message = "Rating can't be empty.")
     public Integer rating = 0;
 
-    @NotNull
+    @NotNull(message = "Date can't be empty.")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public Date createdOn = new Date();
 

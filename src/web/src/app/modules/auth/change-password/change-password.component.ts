@@ -12,7 +12,7 @@ import { AuthService } from '@app/services/auth.service';
 export class ChangePasswordComponent implements OnInit {
   @Input() visible: boolean = false;
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
-  errorMessage: string;
+  errorMessages: string[] = [];
 
   private newPasswordControl = new FormControl('', Validators.required);
   private confirmNewPasswordControl = new FormControl('', [Validators.required, matchPasswords(this.newPasswordControl)]);
@@ -26,7 +26,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.errorMessage = null;
+    this.errorMessages = [];
   }
 
   get currentPassword(): AbstractControl {
@@ -49,22 +49,24 @@ export class ChangePasswordComponent implements OnInit {
   changePassword(): void {
     if ((this.currentPassword.errors && this.currentPassword.errors.required) || (this.newPassword.errors && this.newPassword.errors.required) ||
       (this.confirmNewPassword.errors && this.confirmNewPassword.errors.required)) {
-      this.errorMessage = "Please fill in all required fields.";
+      this.errorMessages.push("Please fill in all required fields.");
       return;
     } else if (this.confirmNewPassword.errors && this.confirmNewPassword.errors.passwordsDontMatch) {
-      this.errorMessage = "New passwords don't match.";
+      this.errorMessages.push("New passwords don't match.");
       this.newPassword.setValue('');
       this.confirmNewPassword.setValue('');
       return;
     } else {
-      this.authService.changePassword(this.currentPassword.value, this.newPassword.value, this.confirmNewPassword.value)
+      this.authService.changePassword(this.authService.userid, this.currentPassword.value, this.newPassword.value)
         .subscribe(
           (data) => {
-            this.errorMessage = null;
+            this.errorMessages = [];
             this.onToggleModal(false);
           },
           (error) => {
-            this.errorMessage = error.error.message;
+            if (error.error != null) {
+              this.errorMessages = error.error.errorMessages;
+            }
           });
     }
   }

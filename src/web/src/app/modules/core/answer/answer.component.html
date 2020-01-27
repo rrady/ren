@@ -28,11 +28,23 @@
         </div>
       </div>
     </form>
+
     <div *ngIf="answer.comments && answer.comments.length > 0" class="column is-4 is-offset-8 is-divider"></div>
     <div *ngFor="let comment of comments">
       <app-comment [questionId]="questionId" [answerId]="answer.id" [comment]="comment"></app-comment>
       <div *ngIf="answer.comments.indexOf(comment) !== answer.comments.length - 1" class="column is-4 is-offset-8 is-divider"></div>
     </div>
+
+    <div *ngIf="errorMessages && errorMessages.length > 0" class="message is-danger">
+      <div class="message-body">
+        <ul>
+          <li *ngFor="let errorMessage of errorMessages">
+            {{errorMessage}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
 <div *ngIf="commentMode" class="columns">

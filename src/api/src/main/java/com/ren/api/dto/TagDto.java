@@ -20,7 +20,7 @@ public class TagDto {
 
     public Long id;
 
-    @Size(min = 3, max = 30)
+    @Size(min = 3, max = 30, message = "Text must be between 3 and 30.")
     public String text;
 
     @JsonIgnore

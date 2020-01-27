@@ -20,10 +20,10 @@ public class CommentDto {
 
     public Long id;
 
-    @Size(min = 10, max = 3000)
+    @Size(min = 10, max = 3000, message = "Text must be between 10 and 3000.")
     public String text;
 
-    @NotNull
+    @NotNull(message = "Date can't be empty.")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public Date createdOn = new Date();
 

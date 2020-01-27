@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ModalComponent implements OnInit {
   @Input() title: string;
   @Input() visible: boolean;
-  @Input() error: string;
+  @Input() error: string[];
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
 

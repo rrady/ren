@@ -1,9 +1,9 @@
-import { OnInit, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import {OnInit, Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
+import {Router} from '@angular/router';
 
-import { Tag } from '@app/models';
-import { AuthService, QuestionService } from '@app/services';
+import {Tag} from '@app/models';
+import {AuthService, QuestionService} from '@app/services';
 
 @Component({
   selector: 'app-ask',
@@ -11,7 +11,7 @@ import { AuthService, QuestionService } from '@app/services';
   styleUrls: ['./ask.component.css']
 })
 export class AskComponent implements OnInit {
-  public errorMessage: string;
+  public errorMessages: string[] = [];
   public availableTags: Tag[] = [];
   public selectedTags: Tag[] = [];
 
@@ -21,7 +21,7 @@ export class AskComponent implements OnInit {
   });
 
   constructor(private formBuilder: FormBuilder, private questionService: QuestionService,
-    private authService: AuthService, private router: Router) {
+              private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -42,24 +42,24 @@ export class AskComponent implements OnInit {
         this.availableTags = data;
       },
       (error) => {
-        this.errorMessage = error.error.message;
+        this.errorMessages = error.error.errorMessages;
       });
   }
 
   post(): void {
+    this.errorMessages = [];
     if ((this.title.errors && this.title.errors.required) || (this.body.errors && this.body.errors.required)) {
-      this.errorMessage = "Please fill in all required fields.";
-      return;
+      this.errorMessages.push("Please fill in all required fields.");
     } else {
-      this.errorMessage = null;
+      this.errorMessages = null;
       let userId: number = this.authService.userid;
       this.questionService.postQuestion(userId, this.title.value, this.body.value, this.selectedTags).subscribe(
         (data) => {
-          this.errorMessage = null;
+          this.errorMessages = null;
           this.router.navigate(['/feed']);
         },
         (error) => {
-          this.errorMessage = error.error.message;
+          this.errorMessages = error.error.errorMessages;
         });
     }
   }

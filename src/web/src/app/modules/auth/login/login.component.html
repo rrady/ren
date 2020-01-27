@@ -1,4 +1,4 @@
-<app-modal [title]="'Login'" [visible]="visible" [error]="errorMessage" (onSave)="login()" (onToggle)="onToggleModal($event)">
+<app-modal [title]="'Login'" [visible]="visible" [error]="errorMessages" (onSave)="login()" (onToggle)="onToggleModal($event)">
   <form class="form" role="form" [formGroup]="loginForm">
     <div class="field">
         <label class="label" for="email">Email</label>

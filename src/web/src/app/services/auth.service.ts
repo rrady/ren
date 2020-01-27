@@ -68,7 +68,7 @@ export class AuthService {
     }
 
     changePassword(userId: number, currentPassword: string, newPassword: string): Observable<any> {
-      return this.http.put<any>(`${environment.renApi}/auth/reset}`, { userId, currentPassword, newPassword });
+      return this.http.put<any>(`${environment.renApi}/auth/reset`, { userId, currentPassword, newPassword });
     }
 
     logout(): Observable<any> {

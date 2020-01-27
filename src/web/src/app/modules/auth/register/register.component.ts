@@ -12,7 +12,7 @@ import { matchPasswords } from '@app/modules/shared/validators/match-passwords.v
 export class RegisterComponent implements OnInit {
   @Input() visible: boolean = false;
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
-  errorMessage: string;
+  errorMessages: string[];
 
   private passwordControl = new FormControl('', Validators.required);
   private confirmPasswordControl = new FormControl('', [Validators.required, matchPasswords(this.passwordControl)]);
@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.errorMessage = null;
+    this.errorMessages = [];
   }
 
   get username(): AbstractControl {
@@ -54,23 +54,23 @@ export class RegisterComponent implements OnInit {
   register(): void {
     if ((this.username.errors && this.username.errors.required) || (this.email.errors && this.email.errors.required) ||
     (this.password.errors && this.password.errors.required) || (this.confirmPassword.errors && this.confirmPassword.errors.required)) {
-      this.errorMessage = "Please fill in all required fields.";
+      this.errorMessages.push("Please fill in all required fields.");
       return;
     } else if (this.confirmPassword.errors && this.confirmPassword.errors.passwordsDontMatch) {
-      this.errorMessage = "Passwords don't match.";
+      this.errorMessages.push("Passwords don't match.");
       this.password.setValue('');
       this.confirmPassword.setValue('');
       return;
     } else {
-      this.errorMessage = null;
+      this.errorMessages = [];
       this.authService.register(this.username.value, this.email.value, this.password.value)
         .subscribe(
           (data) => {
-            this.errorMessage = null;
+            this.errorMessages = [];
             this.onToggleModal(false);
           },
           (error) => {
-            this.errorMessage = error.error.message;
+            this.errorMessages = error.error.errorMessages;
           });
     }
   }

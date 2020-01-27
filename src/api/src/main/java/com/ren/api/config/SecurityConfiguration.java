@@ -26,22 +26,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
-            .disable()
-            .cors()
-            .and()
+                .disable()
+                .cors()
+                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-            .and()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/question").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/question/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/reset").authenticated()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
-            .and()
+                .and()
                 .apply(jwtConfigurerAdapter());
     }
 

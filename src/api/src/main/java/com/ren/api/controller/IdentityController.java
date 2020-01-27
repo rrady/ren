@@ -1,12 +1,9 @@
 package com.ren.api.controller;
 
+import com.ren.api.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ren.api.exceptions.RenException;
 import com.ren.api.model.JsonWebToken;
@@ -44,5 +41,11 @@ public class IdentityController {
         JsonWebToken jsonWebToken = identityService.refresh(refreshToken);
 
         return ResponseEntity.ok().body(jsonWebToken);
+    }
+
+    @PutMapping(value = "/reset")
+    public ResponseEntity<?> resetPassword(@RequestBody ChangePasswordModel model) throws RenException {
+        identityService.changePassword(model.getUserId(), model.getCurrentPassword(), model.getNewPassword());
+        return ResponseEntity.noContent().build();
     }
 }

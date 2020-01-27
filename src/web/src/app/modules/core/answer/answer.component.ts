@@ -16,6 +16,7 @@ export class AnswerComponent implements OnInit {
 
   public editMode: boolean = false;
   public commentMode: boolean = false;
+  public errorMessages: string[] = [];
 
   public answerForm: FormGroup = this.formBuilder.group({
     body: ['', Validators.required]
@@ -103,7 +104,7 @@ export class AnswerComponent implements OnInit {
           this.router.navigate(['/question', this.questionId]);
         },
         error => {
-          console.log(error);
+          this.errorMessages = error.error.errorMessages;
         });
   }
 }

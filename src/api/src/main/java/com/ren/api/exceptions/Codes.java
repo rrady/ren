@@ -6,6 +6,5 @@ public final class Codes {
     public static final String RESOURCE_EXPIRED = "resource_expired";
     public static final String INVALID_INPUT = "invalid_input";
 
-    private Codes() {
-    }
+    private Codes() {}
 }

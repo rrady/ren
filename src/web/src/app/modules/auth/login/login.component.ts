@@ -11,7 +11,7 @@ import { AuthService } from '@app/services/auth.service';
 export class LoginComponent implements OnInit {
   @Input() visible: boolean = false;
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
-  errorMessage: string;
+  errorMessages: string[];
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', Validators.required],
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.errorMessage = null;
+    this.errorMessages = [];
   }
 
   get email(): AbstractControl {
@@ -40,18 +40,18 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if ((this.email.errors && this.email.errors.required) || (this.password.errors && this.password.errors.required)) {
-      this.errorMessage = "Please fill in all required fields.";
+      this.errorMessages.push("Please fill in all required fields.");
       return;
     } else {
-      this.errorMessage = null;
+      this.errorMessages = [];
       this.authService.login(this.email.value, this.password.value)
         .subscribe(
           (data) => {
-            this.errorMessage = null;
+            this.errorMessages = [];
             this.onToggleModal(false);
           },
           (error) => {
-            this.errorMessage = error.error.message;
+            this.errorMessages = error.error.errorMessages;
           });
     }
   }

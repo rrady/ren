@@ -19,11 +19,11 @@ public class UserDto {
 
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Email can't be empty.")
     @Email
     private String email;
 
-    @NotNull
+    @NotNull(message = "Name can't be empty.")
     @Size(min = 3, max = 15)
     private String name;
 }
